@@ -1,26 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import { Router, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './App.css';
+import { history } from './helpers';
+import { Login, Home, Register } from './components/';
+import { alertActions } from './actions';
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    
+    const { dispatch } = this.props;
+    history.listen((location, action) => {
+      // dispatch(alertActions.clear());
+    });
+  }
+  render() {
+    return (
+      <div>
+        <Router history={history}>
+          <div>
+            <Route exact path="/" component={Home} />
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+          </div>
+        </Router>
+      </div>
+    );
+  }
 }
 
-export default App;
+// function mapStateToProps(state) {
+//   const { addAlert } = state;
+//   return {
+//     addAlert
+//   };
+// }
+
+const connectedApp = connect(null)(App);
+export { connectedApp as App };
