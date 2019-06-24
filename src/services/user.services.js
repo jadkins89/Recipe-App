@@ -1,7 +1,8 @@
 import config from '../config';
 
 export const userService = {
-  login
+  login,
+  register
 };
 
 function login(email, password) {
@@ -14,10 +15,22 @@ function login(email, password) {
   return fetch(`${config.apiUrl}/users/login`, requestOptions)
     .then(handleResponse)
     .then(user => {
-      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('user', user);
       
-      return user;
+      return JSON.parse(user);
     });
+}
+
+function register(user) {
+  const { firstName, lastName, email, password } = user;
+  const requestOptions = {
+    method: 'POST',
+    mode: 'cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ firstName, lastName, email, password })
+  };
+  return fetch(`${config.apiUrl}/users/register`, requestOptions)
+    .then(handleResponse);
 }
 
 function handleResponse(response) {

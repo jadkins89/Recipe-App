@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBBtn } from 'mdbreact';
-import PropTypes from 'prop-types';
 
 import { userActions, alertActions } from '../actions';
+import { validationServices } from '../services';
 import AlertMessagesList from './AlertMessagesList';
 
 class Login extends Component {
@@ -12,46 +12,11 @@ class Login extends Component {
     super(props);
     this.state = {
       email: '',
-      password: '',
-      submitted: false
+      password: ''
     };
     
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.passwordValidation = this.passwordValidation.bind(this);
-    this.emailValidation = this.emailValidation.bind(this);
-  }
-  
-  passwordValidation = (event, dispatch) => {
-    var passwordField = event.target.querySelector('[name=password]');
-    if (this.state.password.length < 6) {
-      passwordField.className += " invalid";
-      dispatch(alertActions.addAlert({
-        type: 'error',
-        text: 'Password must be at least 6 characters long'
-      }));
-      return false;
-    } else {
-      passwordField.className += " valid";
-      return true;
-    }
-  }
-  
-  emailValidation = (event, dispatch) => {
-    var emailField = event.target.querySelector('[name=email]');
-    var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
-    if (!regex.test(this.state.email)) {
-      emailField.className += " invalid";
-      dispatch(alertActions.addAlert({
-        type: 'error',
-        text: 'Invalid email'
-      }));
-      return false;
-    } else {
-      emailField.className += " valid";
-      return true;
-    }
   }
   
   handleSubmit = event => {
@@ -61,9 +26,8 @@ class Login extends Component {
     const { dispatch } = this.props;
     dispatch(alertActions.clearAlert());
     
-    if (this.emailValidation(event, dispatch) && this.passwordValidation(event, dispatch)) {
-      this.setState({ submitted: true });
-      console.log(email, password);
+    if (validationServices.emailValidation(event, email, dispatch) && 
+        validationServices.passwordValidation(event, password, dispatch)) {
       dispatch(userActions.login(email, password));
     }
   }
@@ -73,8 +37,7 @@ class Login extends Component {
   }
   
   render() {
-    const { loggingIn } = this.props;
-    const { email, password, submitted } = this.state;
+    const { email, password } = this.state;
     return (
       <MDBContainer>
         <MDBRow className="mt-5">
@@ -93,6 +56,7 @@ class Login extends Component {
                     value={email}
                     onChange={this.handleChange}
                     name="email"
+                    autoComplete="email"
                     required
                   />
                   <MDBInput
@@ -103,6 +67,7 @@ class Login extends Component {
                     value={password}
                     onChange={this.handleChange}
                     name="password"
+                    autoComplete="current-password"
                     required
                   />
                 </div>
@@ -122,11 +87,11 @@ class Login extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const { loggingIn } = state.authentication;
-  return {
-    loggingIn // Can be used to display loading screen
-  };
-}
+// function mapStateToProps(state) {
+//   const { loggingIn } = state.authentication;
+//   return {
+//     loggingIn // Can be used to display loading screen
+//   };
+// }
 
-export default connect(mapStateToProps)(Login);
+export default connect(null)(Login);

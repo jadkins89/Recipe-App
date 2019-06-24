@@ -13,7 +13,7 @@ class App extends Component {
     
     const { dispatch } = this.props;
     history.listen((location, action) => {
-      // dispatch(alertActions.clear());
+      dispatch(alertActions.clearAlert());
     });
   }
   render() {

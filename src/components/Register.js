@@ -1,39 +1,62 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types'
 import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBBtn } from 'mdbreact';
 
-class Register extends React.Component {
+import { userActions, alertActions } from '../actions';
+import { validationServices } from '../services';
+import AlertMessagesList from './AlertMessagesList';
+
+class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      first_name: '',
-      last_name: '',
-      email: '',
-      password: '',
-      confirm_password: ''
+      user: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+      }
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    
-    
   }
+  
   handleSubmit = event => {
+    event.preventDefault();
     
+    const { user } = this.state;
+    const { dispatch } = this.props;
+    dispatch(alertActions.clearAlert());
+    
+    if (
+        validationServices.nameValidation(event, user.firstName, dispatch) &&
+        validationServices.nameValidation(event, user.lastName, dispatch) &&
+        validationServices.emailValidation(event, user.email, dispatch) &&
+        validationServices.regPasswordValidation(event, user.password, user.confirmPassword, dispatch)
+       ) {
+         dispatch(userActions.register(user));
+    }
   }
   
   handleChange = event => {
-    
+    const { user } = this.state;
+    this.setState({ user: {
+      ...user,
+      [event.target.name]: event.target.value
+    }});
   }
   
   render () {
-    const { first_name, last_name, email, password, confirm_password } = this.state;
+    const { firstName, lastName, email, password, confirmPassword } = this.state;
     return (
       <MDBContainer>
         <MDBRow className="mt-5">
           <MDBCol md="5" className="m-auto">
             <MDBCard>
               <MDBCardBody>
+                <AlertMessagesList />
                 <form onSubmit={this.handleSubmit} noValidate>
                   <p className="h2 text-center mb-4">Register</p>
                     <div className="grey-text">
@@ -41,18 +64,18 @@ class Register extends React.Component {
                         label="First Name"
                         group
                         type="text"
-                        value={first_name}
+                        value={firstName}
                         onChange={this.handleChange}
-                        name="fname"
+                        name="firstName"
                         required
                       />
                       <MDBInput
                         label="Last Name"
                         group
                         type="text"
-                        value={last_name}
+                        value={lastName}
                         onChange={this.handleChange}
-                        name="lname"
+                        name="lastName"
                         required
                       />
                       <MDBInput
@@ -62,6 +85,7 @@ class Register extends React.Component {
                         value={email}
                         onChange={this.handleChange}
                         name="email"
+                        autoComplete="email"
                         required
                       />
                       <MDBInput
@@ -71,15 +95,17 @@ class Register extends React.Component {
                         value={password}
                         onChange={this.handleChange}
                         name="password"
+                        autoComplete="new-password"
                         required
                       />
                       <MDBInput
                         label="Confirm Password"
                         group
                         type="password"
-                        value={confirm_password}
+                        value={confirmPassword}
                         onChange={this.handleChange}
-                        name="cpassword"
+                        name="confirmPassword"
+                        autoComplete="new-password"
                         required
                       />
                     </div>
@@ -99,4 +125,4 @@ class Register extends React.Component {
   }
 }
 
-export default Register;
+export default connect(null)(Register);

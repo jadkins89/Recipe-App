@@ -4,7 +4,8 @@ import { userService } from '../services';
 import { alertActions } from '../actions';
 
 export const userActions = {
-  login
+  login,
+  register
 }
 
 function login(email, password) {
@@ -17,12 +18,11 @@ function login(email, password) {
       userService.login(email, password)
         .then(
           user => {
-            console.log("user: " + user);
+            console.log(user);
             dispatch(success(user));
             history.push('/');
           },
           error => {
-            console.log(error);
             let parsedError = JSON.parse(error);
             let message = {
               type: parsedError.error.status === 200 ? 'success' : 'error',
@@ -30,8 +30,39 @@ function login(email, password) {
             }
             dispatch(failure(parsedError));
             dispatch(alertActions.addAlert(message));
-            // dispatch(alertActions.error(error.toString()));
           }
         );
   };
+}
+
+function register(user) {
+  function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
+  function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
+  function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
+  
+  return dispatch => {
+    dispatch(request(user));
+    userService.register(user)
+      .then(
+        user => {
+          console.log(user);
+          dispatch(success(user));
+          history.push('/login');
+          dispatch(alertActions.addAlert({
+            type: 'success',
+            text: 'Registration Successful'
+          }));
+        },
+        error => {
+          console.log(error);
+          let parsedError = JSON.parse(error);
+          let message = {
+            type: parsedError.error.status === 200 ? 'success': 'error',
+            text: parsedError.message
+          }
+          dispatch(failure(parsedError));
+          dispatch(alertActions.addAlert(message));
+        }
+      )
+  }
 }
