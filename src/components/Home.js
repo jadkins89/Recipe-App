@@ -6,7 +6,7 @@ class Home extends Component {
   render() {
     const { user } = this.props;
     return (
-      <div>
+      <div className="body">
         <AlertMessagesList />
         <h1>Welcome {user.first_name}</h1>
       </div>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBBtn } from 'mdbreact';
 
 import { userActions, alertActions } from '../actions';
@@ -23,12 +23,12 @@ class Login extends Component {
     event.preventDefault();
     
     const { email, password } = this.state;
-    const { dispatch } = this.props;
+    const { dispatch, history } = this.props;
     dispatch(alertActions.clearAlert());
     
     if (validationServices.emailValidation(event, email, dispatch) && 
         validationServices.passwordValidation(event, password, dispatch)) {
-      dispatch(userActions.login(email, password));
+      dispatch(userActions.login(email, password, history));
     }
   }
   
@@ -94,4 +94,4 @@ class Login extends Component {
 //   };
 // }
 
-export default connect(null)(Login);
+export default withRouter(connect(null)(Login));

@@ -1,4 +1,4 @@
-import { history } from '../helpers';
+// import { history } from '../helpers';
 import { userConstants } from '../constants';
 import { userService } from '../services';
 import { alertActions } from '../actions';
@@ -8,7 +8,7 @@ export const userActions = {
   register
 }
 
-function login(email, password) {
+function login(email, password, history) {
   function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
   function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
   function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
@@ -18,11 +18,11 @@ function login(email, password) {
       userService.login(email, password)
         .then(
           user => {
-            console.log(user);
             dispatch(success(user));
             history.push('/');
           },
           error => {
+            console.log(error);
             let parsedError = JSON.parse(error);
             let message = {
               type: parsedError.error.status === 200 ? 'success' : 'error',
@@ -35,7 +35,7 @@ function login(email, password) {
   };
 }
 
-function register(user) {
+function register(user, history) {
   function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
   function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
   function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }

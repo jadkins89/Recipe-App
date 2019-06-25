@@ -14,10 +14,12 @@ function login(email, password) {
   };
   return fetch(`${config.apiUrl}/users/login`, requestOptions)
     .then(handleResponse)
-    .then(user => {
-      localStorage.setItem('user', user);
+    .then(response => {
+      let payload = JSON.parse(response);
+      console.log(payload);
+      localStorage.setItem('jwtToken', payload.token);
       
-      return JSON.parse(user);
+      return payload.loggedUser;
     });
 }
 
