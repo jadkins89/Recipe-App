@@ -1,16 +1,17 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import AlertMessagesList from './AlertMessagesList';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { MDBContainer } from "mdbreact";
+import AlertMessagesList from "./AlertMessagesList";
 
 class Home extends Component {
   render() {
     const { user } = this.props;
     return (
-      <div className="body">
+      <MDBContainer>
         <AlertMessagesList />
         <h1>Welcome {user.first_name}</h1>
-      </div>
-    )
+      </MDBContainer>
+    );
   }
 }
 

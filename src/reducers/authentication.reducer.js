@@ -1,22 +1,54 @@
-import { userConstants } from '../constants';
+import { userConstants } from "../constants";
 
-let user = JSON.parse(localStorage.getItem('user'));
-const initialState = user ? { loggedIn: true, user } : {};
+const initialState = {};
 
 export default function authentication(state = initialState, action) {
   switch (action.type) {
     case userConstants.LOGIN_REQUEST:
-      return {
-        loggingIn: true,
+      return Object.assign({}, state, {
+        isFetching: true,
+        isAuthenticated: false,
         user: action.user
-      };
+      });
     case userConstants.LOGIN_SUCCESS:
-      return {
-        loggedIn: true,
+      return Object.assign({}, state, {
+        isFetching: false,
+        isAuthenticated: true,
         user: action.user
-      };
+      });
     case userConstants.LOGIN_FAILURE:
-      return {};
+      return Object.assign({}, state, {
+        isFetching: false,
+        isAuthenticated: false,
+        error: action.error
+      });
+    case userConstants.LOGOUT_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        isAuthenticated: true
+      });
+    case userConstants.LOGOUT_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        isAuthenticated: false
+      });
+    case userConstants.AUTH_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        isAuthenticated: false
+      });
+    case userConstants.AUTH_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        isAuthenticated: true,
+        user: action.user
+      });
+    case userConstants.AUTH_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        isAuthenticated: false,
+        user: action.error
+      });
     default:
       return state;
   }

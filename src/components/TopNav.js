@@ -1,6 +1,18 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { MDBContainer, MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem, MDBNavLink, MDBIcon, MDBFormInline } from 'mdbreact';
+import React, { Component } from "react";
+import {
+  MDBBtn,
+  MDBContainer,
+  MDBNavbar,
+  MDBNavbarBrand,
+  MDBNavbarNav,
+  MDBNavbarToggler,
+  MDBCollapse,
+  MDBNavItem,
+  MDBNavLink,
+  MDBFormInline
+} from "mdbreact";
+import { connect } from "react-redux";
+import { userActions } from "../actions";
 
 class TopNav extends Component {
   constructor(props) {
@@ -8,31 +20,51 @@ class TopNav extends Component {
     this.state = {
       collapse: false
     };
-    
+
     this.onClick = this.onClick.bind(this);
+    this.onLogout = this.onLogout.bind(this);
   }
-  
+
   onClick() {
     this.setState({
       collapse: !this.state.collapse
     });
   }
-  
-  render () {
+
+  onLogout() {
+    const { dispatch } = this.props;
+    dispatch(userActions.logout());
+  }
+
+  render() {
+    const { onClick, onLogout } = this;
+    const { collapse } = this.state;
     return (
-      <MDBContainer style={{ marginTop: `50px` }}>
-        <MDBNavbar light expand="md" scrolling fixed="top" style={{ padding: `0` }}>
-          <MDBContainer style={{width: `100%`, maxWidth: `1200px`}}>
+      <MDBContainer style={{ marginBottom: `60px` }}>
+        <MDBNavbar
+          className="p-0"
+          light
+          expand="md"
+          scrolling
+          fixed="top"
+          color="blue"
+        >
+          <MDBContainer>
             <MDBNavbarBrand href="/" style={{ marginLeft: `20px` }}>
               <strong>RecipeBook</strong>
             </MDBNavbarBrand>
-            <MDBNavbarToggler onClick={this.onClick} />
-            <MDBCollapse isOpen={this.state.collapse} navbar>
+            <MDBNavbarToggler onClick={onClick} />
+            <MDBCollapse isOpen={collapse} navbar>
               <MDBNavbarNav left>
                 <MDBNavItem>
                   <MDBFormInline>
                     <div className="md-form my-0">
-                      <input className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" />
+                      <input
+                        className="form-control mr-sm-2"
+                        type="text"
+                        placeholder="Search"
+                        aria-label="Search"
+                      />
                     </div>
                   </MDBFormInline>
                 </MDBNavItem>
@@ -45,7 +77,9 @@ class TopNav extends Component {
               </MDBNavbarNav>
               <MDBNavbarNav right>
                 <MDBNavItem>
-                  <MDBNavLink to="#">Logout</MDBNavLink>
+                  <MDBBtn color="blue" onClick={onLogout}>
+                    Logout
+                  </MDBBtn>
                 </MDBNavItem>
               </MDBNavbarNav>
             </MDBCollapse>
@@ -56,4 +90,4 @@ class TopNav extends Component {
   }
 }
 
-export default TopNav;
+export default connect(null)(TopNav);

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 import './index.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -9,13 +9,16 @@ import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 
 import { store } from './helpers';
+import { userActions } from './actions';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+
+store.dispatch(userActions.authenticate());
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <Route component={App} />
     </BrowserRouter>
   </Provider>, document.getElementById('root'));
 
