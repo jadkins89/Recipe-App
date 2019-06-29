@@ -18,11 +18,16 @@ class TopNav extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      collapse: false
+      collapse: false,
+      path: {
+        profile: "/",
+        addRecipe: "/addrecipe"
+      }
     };
 
     this.onClick = this.onClick.bind(this);
     this.onLogout = this.onLogout.bind(this);
+    this.activePath = this.activePath.bind(this);
   }
 
   onClick() {
@@ -36,9 +41,14 @@ class TopNav extends Component {
     dispatch(userActions.logout());
   }
 
+  activePath(path) {
+    const { pathname } = this.props.location;
+    return pathname === path;
+  }
+
   render() {
-    const { onClick, onLogout } = this;
-    const { collapse } = this.state;
+    const { onClick, onLogout, activePath } = this;
+    const { collapse, path } = this.state;
     return (
       <MDBContainer style={{ marginBottom: `60px` }}>
         <MDBNavbar
@@ -68,11 +78,11 @@ class TopNav extends Component {
                     </div>
                   </MDBFormInline>
                 </MDBNavItem>
-                <MDBNavItem active>
-                  <MDBNavLink to="#">Profile</MDBNavLink>
+                <MDBNavItem active={activePath(path.profile)}>
+                  <MDBNavLink to="/">Profile</MDBNavLink>
                 </MDBNavItem>
-                <MDBNavItem>
-                  <MDBNavLink to="#">Add Recipe</MDBNavLink>
+                <MDBNavItem active={activePath(path.addRecipe)}>
+                  <MDBNavLink to="/addrecipe">Add Recipe</MDBNavLink>
                 </MDBNavItem>
               </MDBNavbarNav>
               <MDBNavbarNav right>
