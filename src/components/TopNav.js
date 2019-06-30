@@ -8,8 +8,7 @@ import {
   MDBNavbarToggler,
   MDBCollapse,
   MDBNavItem,
-  MDBNavLink,
-  MDBFormInline
+  MDBNavLink
 } from "mdbreact";
 import { connect } from "react-redux";
 import { userActions } from "../actions";
@@ -57,26 +56,22 @@ class TopNav extends Component {
           expand="md"
           scrolling
           fixed="top"
-          color="blue"
+          color="light-blue"
         >
-          <MDBContainer>
+          <MDBContainer className="my-1">
             <MDBNavbarBrand href="/" style={{ marginLeft: `20px` }}>
               <strong>RecipeBook</strong>
             </MDBNavbarBrand>
             <MDBNavbarToggler onClick={onClick} />
             <MDBCollapse isOpen={collapse} navbar>
               <MDBNavbarNav left>
-                <MDBNavItem>
-                  <MDBFormInline>
-                    <div className="md-form my-0">
-                      <input
-                        className="form-control mr-sm-2"
-                        type="text"
-                        placeholder="Search"
-                        aria-label="Search"
-                      />
-                    </div>
-                  </MDBFormInline>
+                <MDBNavItem className="mr-1">
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="Search"
+                    aria-label="Search"
+                  />
                 </MDBNavItem>
                 <MDBNavItem active={activePath(path.profile)}>
                   <MDBNavLink to="/">Profile</MDBNavLink>
@@ -87,7 +82,7 @@ class TopNav extends Component {
               </MDBNavbarNav>
               <MDBNavbarNav right>
                 <MDBNavItem>
-                  <MDBBtn color="blue" onClick={onLogout}>
+                  <MDBBtn size="sm" color="blue" onClick={onLogout}>
                     Logout
                   </MDBBtn>
                 </MDBNavItem>

@@ -7,13 +7,32 @@ import {
   MDBCard,
   MDBCardBody,
   MDBCardTitle,
-  MDBCardText
+  MDBCardText,
+  MDBInput,
+  MDBBtn
 } from "mdbreact";
 import AlertMessagesList from "./AlertMessagesList";
+// Add alert message when url fails
 
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+
+    this.handleManual = this.handleManual.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleManual = event => {
+    this.props.history.push("/");
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+  };
+
   render() {
-    const { user } = this.props;
+    const { handleManual, handleSubmit } = this;
     return (
       <MDBContainer>
         <MDBRow>
@@ -28,6 +47,17 @@ class Home extends Component {
                   from a recipe site you have visited in the box below or select
                   Manual to input a recipe on your own.
                 </MDBCardText>
+                <form className="grey-text" onSubmit={handleSubmit}>
+                  <MDBInput hint="Recipe URL" type="url" icon="copy" outline />
+                  <div className="d-flex justify-content-between">
+                    <MDBBtn color="warning" onClick={handleManual}>
+                      Manual
+                    </MDBBtn>
+                    <MDBBtn type="submit" style={{ borderRadius: `28px` }}>
+                      Submit
+                    </MDBBtn>
+                  </div>
+                </form>
               </MDBCardBody>
             </MDBCard>
           </MDBCol>
