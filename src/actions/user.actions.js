@@ -1,5 +1,5 @@
 import { userConstants } from "../constants";
-import { userService } from "../services";
+import { userServices } from "../services";
 import { alertActions } from "../actions";
 
 export const userActions = {
@@ -12,7 +12,7 @@ export const userActions = {
 function login(email, password, history) {
   return dispatch => {
     dispatch(request());
-    userService.login(email, password).then(
+    userServices.login(email, password).then(
       user => {
         dispatch(success(user));
         history.push("/");
@@ -31,34 +31,20 @@ function login(email, password, history) {
   };
 
   function request() {
-    return {
-      type: userConstants.LOGIN_REQUEST,
-      isFetching: true,
-      isAuthenticated: false
-    };
+    return { type: userConstants.LOGIN_REQUEST };
   }
   function success(user) {
-    return {
-      type: userConstants.LOGIN_SUCCESS,
-      user,
-      isFetching: false,
-      isAuthenticated: true
-    };
+    return { type: userConstants.LOGIN_SUCCESS, user };
   }
   function failure(error) {
-    return {
-      type: userConstants.LOGIN_FAILURE,
-      error,
-      isFetching: false,
-      isAuthenticated: false
-    };
+    return { type: userConstants.LOGIN_FAILURE, error };
   }
 }
 
 function register(user, history) {
   return dispatch => {
     dispatch(request(user));
-    userService.register(user).then(
+    userServices.register(user).then(
       user => {
         dispatch(success(user));
         history.push("/login");
@@ -96,29 +82,23 @@ function register(user, history) {
 function logout() {
   return dispatch => {
     dispatch(request());
-    userService.logout();
+    userServices.logout();
     dispatch(success());
   };
 
   function request() {
-    return {
-      type: userConstants.LOGOUT_REQUEST,
-      isAuthenticated: true
-    };
+    return { type: userConstants.LOGOUT_REQUEST };
   }
 
   function success() {
-    return {
-      type: userConstants.LOGOUT_SUCCESS,
-      isAuthenticated: false
-    };
+    return { type: userConstants.LOGOUT_SUCCESS };
   }
 }
 
 function authenticate() {
   return dispatch => {
     dispatch(request());
-    return userService.authenticate().then(
+    return userServices.authenticate().then(
       user => {
         dispatch(success(user));
       },
@@ -129,21 +109,12 @@ function authenticate() {
   };
 
   function request() {
-    return {
-      type: userConstants.AUTH_REQUEST,
-      isAuthenticated: false,
-      isFetching: true
-    };
+    return { type: userConstants.AUTH_REQUEST };
   }
   function success(user) {
-    return {
-      type: userConstants.AUTH_SUCCESS,
-      isAuthenticated: true,
-      isFetching: false,
-      user
-    };
+    return { type: userConstants.AUTH_SUCCESS, user };
   }
   function failure(error) {
-    return { type: userConstants.AUTH_FAILURE, isAuthenticated: false, error };
+    return { type: userConstants.AUTH_FAILURE, error };
   }
 }

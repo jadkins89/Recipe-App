@@ -13,55 +13,133 @@ import {
 } from "mdbreact";
 import AlertMessagesList from "./AlertMessagesList";
 // Add alert message when url fails
+import UrlSubmitBox from "./AddRecipe/UrlSubmitBox";
 
-class Home extends Component {
+class AddRecipe extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
-
-    this.handleManual = this.handleManual.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = {
+      recipe: {
+        name: "",
+        ingredients: ["cool", "sweet"],
+        instructions: [
+          "Ipsum expetendis laboris e eram offendit ad tempor cillum. Et consequat e consequat nam magna voluptate te officia.",
+          "More and more stuff we need to do to get our food out to you. Offendit multos irure si multos e ubi est praesentibus."
+        ],
+        time: {
+          prep: "",
+          cook: "",
+          active: "",
+          inactive: "",
+          total: "",
+          ready: ""
+        }
+      }
+    };
   }
 
-  handleManual = event => {
-    this.props.history.push("/");
-  };
+  handleChange = event => {
+    const { recipe } = this.state;
+    const { name, value } = event.target;
 
-  handleSubmit = event => {
-    event.preventDefault();
+    if (name === "name") {
+      this.setState({
+        recipe: {
+          ...recipe,
+          [name]: value
+        }
+      });
+    } else if (name !== "ingredients" && name !== "instructions") {
+      this.setState({
+        recipe: {
+          ...recipe,
+          time: {
+            ...recipe.time,
+            [name]: value
+          }
+        }
+      });
+    } else {
+      // handle arrays
+    }
   };
 
   render() {
-    const { handleManual, handleSubmit } = this;
+    const { handleChange } = this;
+    const { ingredients, instructions } = this.state.recipe;
     return (
-      <MDBContainer>
-        <MDBRow>
-          <MDBCol size="8" className="m-auto">
-            <MDBCard className="mt-2">
-              <MDBCardBody>
-                <MDBCardTitle className="text-center">
-                  Add a recipe to your Cook Book!
-                </MDBCardTitle>
-                <MDBCardText>
-                  You can add a recipe in one of two ways. Simply copy the URL
-                  from a recipe site you have visited in the box below or select
-                  Manual to input a recipe on your own.
-                </MDBCardText>
-                <form className="grey-text" onSubmit={handleSubmit}>
-                  <MDBInput hint="Recipe URL" type="url" icon="copy" outline />
-                  <div className="d-flex justify-content-between">
-                    <MDBBtn color="warning" onClick={handleManual}>
-                      Manual
-                    </MDBBtn>
-                    <MDBBtn type="submit" style={{ borderRadius: `28px` }}>
-                      Submit
-                    </MDBBtn>
-                  </div>
-                </form>
-              </MDBCardBody>
-            </MDBCard>
-          </MDBCol>
-        </MDBRow>
+      <MDBContainer className="p-0">
+        <UrlSubmitBox />
+        <MDBContainer>
+          <MDBRow>
+            <MDBCol size="8" className="m-auto">
+              <MDBCard className="mt-3">
+                <MDBCardBody>
+                  <form noValidate>
+                    <MDBRow>
+                      <MDBCol size="6" className="m-auto">
+                        <MDBInput
+                          label="Recipe Title"
+                          type="text"
+                          name="title"
+                          onChange={handleChange}
+                          size="lg"
+                          outline
+                          required
+                        />
+                      </MDBCol>
+                    </MDBRow>
+                    <MDBRow>
+                      <MDBContainer>
+                        <h5 className="mx-4">Ingredients</h5>
+                        <hr />
+                        {ingredients.map((ingredient, index) => (
+                          <div
+                            className="d-flex p-1 justify-content-between"
+                            key={"ingredient-" + index}
+                          >
+                            <MDBInput
+                              containerClass="flex-fill m-0"
+                              className="my-0"
+                              icon="plus"
+                              value={ingredient}
+                              size="sm"
+                              outline
+                            />
+                            <button className="border-0">&times;</button>
+                          </div>
+                        ))}
+                      </MDBContainer>
+                    </MDBRow>
+                    <MDBRow>
+                      <MDBContainer className="mt-3">
+                        <h5 className="mx-4">Directions</h5>
+                        <hr />
+                        {instructions.map((instruction, index) => (
+                          <div
+                            className="d-flex p-1 justify-content-between"
+                            key={"instruction-" + index}
+                          >
+                            <span className="mt-auto mr-2">{index + 1}.</span>
+                            <MDBInput
+                              containerClass="flex-fill m-0 pr-0"
+                              className="m-0"
+                              type="textarea"
+                              value={instruction}
+                              size="sm"
+                              outline
+                            />
+                            <button className="border-0">&times;</button>
+                          </div>
+                        ))}
+                      </MDBContainer>
+                    </MDBRow>
+                  </form>
+                </MDBCardBody>
+              </MDBCard>
+            </MDBCol>
+          </MDBRow>
+        </MDBContainer>
       </MDBContainer>
     );
   }
@@ -74,4 +152,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps)(AddRecipe);

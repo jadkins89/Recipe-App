@@ -7,8 +7,7 @@ export default function authentication(state = initialState, action) {
     case userConstants.LOGIN_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
-        isAuthenticated: false,
-        user: action.user
+        isAuthenticated: false
       });
     case userConstants.LOGIN_SUCCESS:
       return Object.assign({}, state, {
