@@ -3,7 +3,8 @@ import { recipeServices } from "../services";
 import { alertActions } from "../actions";
 
 export const recipeActions = {
-  add
+  add,
+  find
 };
 
 function add(recipe) {
@@ -38,8 +39,22 @@ function add(recipe) {
 
 function find(url) {
   return dispatch => {
-    recipeServices.find(url).then(response => {
-      console.log(response);
-    });
+    return recipeServices
+      .find(url)
+      .then(recipe => {
+        dispatch(success(recipe));
+      })
+      .catch(error => {
+        console.log("error", error);
+      });
   };
+  function request() {
+    return { type: recipeConstants.FIND_RECIPE_REQUEST };
+  }
+  function success(recipe) {
+    return { type: recipeConstants.FIND_RECIPE_SUCCESS, recipe };
+  }
+  function failure(error) {
+    return { type: recipeConstants.FIND_RECIPE_FAILURE, error };
+  }
 }

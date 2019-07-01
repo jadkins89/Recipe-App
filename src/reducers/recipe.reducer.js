@@ -1,6 +1,22 @@
 import { recipeConstants } from "../constants";
 
-export default function recipe(state = {}, action = {}) {
+const initialState = {
+  recipe: {
+    name: "",
+    ingredients: [],
+    instructions: [],
+    time: {
+      prep: "",
+      cook: "",
+      active: "",
+      inactive: "",
+      total: "",
+      ready: ""
+    }
+  }
+};
+
+export default function recipe(state = initialState, action = {}) {
   switch (action.type) {
     case recipeConstants.ADD_RECIPE_REQUEST:
       return Object.assign({}, state, {

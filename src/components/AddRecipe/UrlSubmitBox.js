@@ -12,6 +12,7 @@ import {
   MDBBtn
 } from "mdbreact";
 import AlertMessagesList from "../AlertMessagesList";
+import { recipeActions } from "../../actions";
 // Add alert message when url fails
 
 class UrlSubmitBox extends Component {
@@ -28,7 +29,10 @@ class UrlSubmitBox extends Component {
     event.preventDefault();
 
     const { url } = this.state;
-    const { dispatch, history } = this.props;
+    const { dispatch, handleUrlSubmit } = this.props;
+    dispatch(recipeActions.find(url)).then(() => {
+      handleUrlSubmit();
+    });
   };
 
   handleChange = event => {

@@ -18,25 +18,18 @@ import UrlSubmitBox from "./AddRecipe/UrlSubmitBox";
 class AddRecipe extends Component {
   constructor(props) {
     super(props);
+    const { recipe } = this.props;
     this.state = {
-      recipe: {
-        name: "",
-        ingredients: ["cool", "sweet"],
-        instructions: [
-          "Ipsum expetendis laboris e eram offendit ad tempor cillum. Et consequat e consequat nam magna voluptate te officia.",
-          "More and more stuff we need to do to get our food out to you. Offendit multos irure si multos e ubi est praesentibus."
-        ],
-        time: {
-          prep: "",
-          cook: "",
-          active: "",
-          inactive: "",
-          total: "",
-          ready: ""
-        }
-      }
+      recipe
     };
+    this.handleUrlSubmit = this.handleUrlSubmit.bind(this);
   }
+
+  handleUrlSubmit = () => {
+    this.setState({
+      recipe: this.props.recipe
+    });
+  };
 
   handleChange = event => {
     const { recipe } = this.state;
@@ -49,7 +42,10 @@ class AddRecipe extends Component {
           [name]: value
         }
       });
-    } else if (name !== "ingredients" && name !== "instructions") {
+    } else if (
+      !name.includes("ingredients") &&
+      !name.includes("instructions")
+    ) {
       this.setState({
         recipe: {
           ...recipe,
@@ -60,16 +56,27 @@ class AddRecipe extends Component {
         }
       });
     } else {
-      // handle arrays
+      let parsedName = name.split("-");
+      let currentName = parsedName[0];
+      let index = parseInt(parsedName[1]);
+      var newArray = recipe[currentName];
+      newArray[index] = value;
+
+      this.setState({
+        recipe: {
+          ...recipe,
+          [currentName]: newArray
+        }
+      });
     }
   };
 
   render() {
-    const { handleChange } = this;
-    const { ingredients, instructions } = this.state.recipe;
+    const { handleChange, handleUrlSubmit } = this;
+    const { ingredients, instructions, name } = this.state.recipe;
     return (
       <MDBContainer className="p-0">
-        <UrlSubmitBox />
+        <UrlSubmitBox handleUrlSubmit={handleUrlSubmit} />
         <MDBContainer>
           <MDBRow>
             <MDBCol size="8" className="m-auto">
@@ -81,7 +88,8 @@ class AddRecipe extends Component {
                         <MDBInput
                           label="Recipe Title"
                           type="text"
-                          name="title"
+                          name="name"
+                          value={name}
                           onChange={handleChange}
                           size="lg"
                           outline
@@ -102,7 +110,9 @@ class AddRecipe extends Component {
                               containerClass="flex-fill m-0"
                               className="my-0"
                               icon="plus"
+                              name={"ingredients-" + index}
                               value={ingredient}
+                              onChange={handleChange}
                               size="sm"
                               outline
                             />
@@ -125,7 +135,9 @@ class AddRecipe extends Component {
                               containerClass="flex-fill m-0 pr-0"
                               className="m-0"
                               type="textarea"
+                              name={"instructions-" + index}
                               value={instruction}
+                              onChange={handleChange}
                               size="sm"
                               outline
                             />
@@ -146,9 +158,9 @@ class AddRecipe extends Component {
 }
 
 function mapStateToProps(state) {
-  const { user } = state.authentication;
+  const { recipe } = state.recipe;
   return {
-    user
+    recipe
   };
 }
 
