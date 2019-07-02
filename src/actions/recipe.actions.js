@@ -23,6 +23,7 @@ function add(recipe) {
         // alert user that recipes was stored successfully
       })
       .catch(error => {
+        dispatch(failure(error));
         console.log(error);
       });
   };
@@ -39,13 +40,28 @@ function add(recipe) {
 
 function find(url) {
   return dispatch => {
+    dispatch(request());
     return recipeServices
       .find(url)
       .then(recipe => {
+        if (!recipe.name || !recipe.ingredients || !recipe.instructions) {
+          var error = "The recipe failed to be secured";
+          let message = {
+            type: "error",
+            text: error
+          };
+          dispatch(failure(error));
+          dispatch(alertActions.addAlert(message));
+        }
         dispatch(success(recipe));
       })
       .catch(error => {
-        console.log("error", error);
+        let parsedError = JSON.parse(error);
+        let message = {
+          type: "error",
+          text: parsedError.message
+        };
+        dispatch(alertActions.addAlert(message));
       });
   };
   function request() {

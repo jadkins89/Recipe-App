@@ -40,7 +40,7 @@ class UrlSubmitBox extends Component {
   };
 
   render() {
-    const { handleManual, handleSubmit, handleChange } = this;
+    const { handleSubmit, handleChange } = this;
     const { url } = this.state;
     return (
       <MDBContainer>
@@ -48,6 +48,7 @@ class UrlSubmitBox extends Component {
           <MDBCol size="8" className="m-auto">
             <MDBCard className="mt-2">
               <MDBCardBody>
+                <AlertMessagesList />
                 <MDBCardTitle className="text-center">
                   Add a recipe to your Cook Book!
                 </MDBCardTitle>

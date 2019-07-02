@@ -1,18 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { DragDropContext } from "react-beautiful-dnd";
 import {
   MDBContainer,
   MDBRow,
   MDBCol,
   MDBCard,
   MDBCardBody,
-  MDBCardTitle,
-  MDBCardText,
   MDBInput,
-  MDBBtn
+  MDBBtn,
+  MDBIcon
 } from "mdbreact";
-import AlertMessagesList from "./AlertMessagesList";
-// Add alert message when url fails
 import UrlSubmitBox from "./AddRecipe/UrlSubmitBox";
 
 class AddRecipe extends Component {
@@ -23,6 +21,9 @@ class AddRecipe extends Component {
       recipe
     };
     this.handleUrlSubmit = this.handleUrlSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleAddArrayItem = this.handleAddArrayItem.bind(this);
+    this.handleRemoveArrayItem = this.handleRemoveArrayItem.bind(this);
   }
 
   handleUrlSubmit = () => {
@@ -56,23 +57,62 @@ class AddRecipe extends Component {
         }
       });
     } else {
-      let parsedName = name.split("-");
-      let currentName = parsedName[0];
-      let index = parseInt(parsedName[1]);
-      var newArray = recipe[currentName];
+      const { category, index } = this.parseName(name);
+      var newArray = recipe[category];
       newArray[index] = value;
 
       this.setState({
         recipe: {
           ...recipe,
-          [currentName]: newArray
+          [category]: newArray
         }
       });
     }
   };
 
+  parseName = name => {
+    let parsedName = name.split("-");
+    return {
+      category: parsedName[0],
+      index: parseInt(parsedName[1])
+    };
+  };
+
+  handleAddArrayItem = event => {
+    const { recipe } = this.state;
+    const { name } = event.target;
+    this.setState({
+      recipe: {
+        ...recipe,
+        [name]: recipe[name].concat([""])
+      }
+    });
+  };
+
+  handleRemoveArrayItem = event => {
+    event.preventDefault();
+    const { recipe } = this.state;
+    const { category, index } = this.parseName(event.target.name);
+    var newArray = recipe[category];
+    newArray.splice(index, 1);
+    this.setState({
+      recipe: {
+        ...recipe,
+        [category]: newArray
+      }
+    });
+  };
+
+  onDragEnd = result => {};
+
   render() {
-    const { handleChange, handleUrlSubmit } = this;
+    const {
+      handleChange,
+      handleUrlSubmit,
+      handleAddArrayItem,
+      handleRemoveArrayItem,
+      onDragEnd
+    } = this;
     const { ingredients, instructions, name } = this.state.recipe;
     return (
       <MDBContainer className="p-0">
@@ -101,24 +141,40 @@ class AddRecipe extends Component {
                       <MDBContainer>
                         <h5 className="mx-4">Ingredients</h5>
                         <hr />
-                        {ingredients.map((ingredient, index) => (
-                          <div
-                            className="d-flex p-1 justify-content-between"
-                            key={"ingredient-" + index}
-                          >
-                            <MDBInput
-                              containerClass="flex-fill m-0"
-                              className="my-0"
-                              icon="plus"
-                              name={"ingredients-" + index}
-                              value={ingredient}
-                              onChange={handleChange}
-                              size="sm"
-                              outline
-                            />
-                            <button className="border-0">&times;</button>
-                          </div>
-                        ))}
+                        <DragDropContext onDragEnd={onDragEnd}>
+                          {ingredients.map((ingredient, index) => (
+                            <div
+                              className="d-flex p-1 justify-content-between"
+                              key={"ingredient-" + index}
+                            >
+                              <MDBInput
+                                containerClass="flex-fill m-0"
+                                className="my-0"
+                                icon="plus"
+                                name={"ingredients-" + index}
+                                value={ingredient}
+                                onChange={handleChange}
+                                size="sm"
+                                outline
+                              />
+                              <button
+                                className="border-0"
+                                name={"ingredients-" + index}
+                                onClick={handleRemoveArrayItem}
+                              >
+                                &times;
+                              </button>
+                            </div>
+                          ))}
+                        </DragDropContext>
+                        <MDBBtn
+                          size="sm"
+                          name="ingredients"
+                          onClick={handleAddArrayItem}
+                        >
+                          <MDBIcon icon="plus" className="mr-2" />
+                          Add Ingredient
+                        </MDBBtn>
                       </MDBContainer>
                     </MDBRow>
                     <MDBRow>
@@ -141,9 +197,23 @@ class AddRecipe extends Component {
                               size="sm"
                               outline
                             />
-                            <button className="border-0">&times;</button>
+                            <button
+                              className="border-0"
+                              name={"instructions-" + index}
+                              onClick={handleRemoveArrayItem}
+                            >
+                              &times;
+                            </button>
                           </div>
                         ))}
+                        <MDBBtn
+                          size="sm"
+                          name="instructions"
+                          onClick={handleAddArrayItem}
+                        >
+                          <MDBIcon icon="plus" className="mr-2" />
+                          Add Direction
+                        </MDBBtn>
                       </MDBContainer>
                     </MDBRow>
                   </form>

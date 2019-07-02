@@ -3,8 +3,8 @@ import { recipeConstants } from "../constants";
 const initialState = {
   recipe: {
     name: "",
-    ingredients: [],
-    instructions: [],
+    ingredients: [""],
+    instructions: [""],
     time: {
       prep: "",
       cook: "",
