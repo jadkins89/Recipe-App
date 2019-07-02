@@ -4,7 +4,11 @@ import { alertActions } from "../actions";
 
 export const recipeActions = {
   add,
-  find
+  find,
+  handleChange,
+  handleDrop,
+  addListItem,
+  deleteListItem
 };
 
 function add(recipe) {
@@ -13,7 +17,6 @@ function add(recipe) {
     recipeServices
       .add(recipe)
       .then(response => {
-        console.log(response);
         let message = {
           type: "success",
           text: "Recipe Successfully added"
@@ -73,4 +76,57 @@ function find(url) {
   function failure(error) {
     return { type: recipeConstants.FIND_RECIPE_FAILURE, error };
   }
+}
+
+function handleChange(name, value) {
+  return dispatch => {
+    if (name === "name") {
+      dispatch(changeValue(name, value));
+    } else if (!name.includes("ingredient") && !name.includes("instruction")) {
+      dispatch(changeTime(name, value));
+    } else {
+      const { category, index } = parseName(name);
+      dispatch(changeList(category, value, index));
+    }
+  };
+
+  function changeValue(name, value) {
+    return { type: recipeConstants.MODIFY_RECIPE_NAME, name, value };
+  }
+  function changeTime(name, value) {
+    return { type: recipeConstants.MODIFY_RECIPE_TIME, name, value };
+  }
+  function changeList(name, value, index) {
+    return { type: recipeConstants.MODIFY_RECIPE_LIST, name, value, index };
+  }
+}
+
+function handleDrop(name, value) {
+  return { type: recipeConstants.MODIFY_RECIPE_ORDER, name, value };
+}
+
+function addListItem(name) {
+  return dispatch => {
+    dispatch({ type: recipeConstants.ADD_RECIPE_LIST_ITEM, name });
+  };
+}
+
+function deleteListItem(name) {
+  const { category, index } = parseName(name);
+  return dispatch => {
+    dispatch({
+      type: recipeConstants.DELETE_RECIPE_LIST_ITEM,
+      name: category,
+      index
+    });
+  };
+}
+
+// Utility function
+function parseName(name) {
+  let parsedName = name.split("-");
+  return {
+    category: parsedName[0],
+    index: parseInt(parsedName[1])
+  };
 }

@@ -27,12 +27,9 @@ class UrlSubmitBox extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-
     const { url } = this.state;
-    const { dispatch, handleUrlSubmit } = this.props;
-    dispatch(recipeActions.find(url)).then(() => {
-      handleUrlSubmit();
-    });
+    const { dispatch } = this.props;
+    dispatch(recipeActions.find(url));
   };
 
   handleChange = event => {

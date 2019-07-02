@@ -49,6 +49,51 @@ export default function recipe(state = initialState, action = {}) {
         isFetching: false,
         error: action.error
       });
+    case recipeConstants.MODIFY_RECIPE_NAME:
+      return {
+        ...state,
+        recipe: {
+          ...state.recipe,
+          [action.name]: action.value
+        }
+      };
+    case recipeConstants.MODIFY_RECIPE_LIST:
+      let newList = [...state.recipe[action.name]];
+      newList[action.index] = action.value;
+      return {
+        ...state,
+        recipe: {
+          ...state.recipe,
+          [action.name]: newList
+        }
+      };
+    case recipeConstants.MODIFY_RECIPE_ORDER:
+      return {
+        ...state,
+        recipe: {
+          ...state.recipe,
+          [action.name]: action.value
+        }
+      };
+    case recipeConstants.ADD_RECIPE_LIST_ITEM:
+      let newListAdd = state.recipe[action.name].concat([""]);
+      return {
+        ...state,
+        recipe: {
+          ...state.recipe,
+          [action.name]: newListAdd
+        }
+      };
+    case recipeConstants.DELETE_RECIPE_LIST_ITEM:
+      let newListDelete = [...state.recipe[action.name]];
+      newListDelete.splice(action.index, 1);
+      return {
+        ...state,
+        recipe: {
+          ...state.recipe,
+          [action.name]: newListDelete
+        }
+      };
     default:
       return state;
   }
