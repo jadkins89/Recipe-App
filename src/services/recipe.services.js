@@ -2,11 +2,15 @@ import config from "../config";
 
 export const recipeServices = {
   add,
-  find
+  scrape,
+  findById
 };
 
-function add(recipe) {
-  const requestOptions = requestHandler("POST", { recipe: recipe });
+function add(recipe, user_id) {
+  const requestOptions = requestHandler("POST", {
+    recipe: recipe,
+    user_id: user_id
+  });
   return fetch(`${config.apiUrl}/recipes/add`, requestOptions)
     .then(response => {
       return JSON.parse(response);
@@ -16,12 +20,21 @@ function add(recipe) {
     });
 }
 
-function find(url) {
+function scrape(url) {
   const requestOptions = requestHandler("POST", { url: url });
-  return fetch(`${config.apiUrl}/recipes/find`, requestOptions)
+  return fetch(`${config.apiUrl}/recipes/scrape`, requestOptions)
     .then(handleResponse)
     .then(response => {
       return JSON.parse(response);
+    });
+}
+
+function findById(id) {
+  const requestOptions = requestHandler("GET");
+  return fetch(`${config.apiUrl}/recipes/find/${id}`, requestOptions)
+    .then(handleResponse)
+    .then(response => {
+      console.log(response);
     });
 }
 
@@ -34,7 +47,7 @@ function requestHandler(type, body) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`
     },
-    body: JSON.stringify(body)
+    body: body ? JSON.stringify(body) : null
   };
 }
 

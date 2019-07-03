@@ -12,9 +12,7 @@ import {
   MDBCardText
 } from "mdbreact";
 
-import UrlSubmitBox from "./AddRecipe/UrlSubmitBox";
-import ItemInputList from "./AddRecipe/ItemInputList";
-import TimeInput from "./AddRecipe/TimeInput";
+import { UrlSubmitBox, ItemInputList, TimeInput } from "./AddRecipeComponents";
 import { recipeActions } from "../actions";
 
 class AddRecipe extends Component {

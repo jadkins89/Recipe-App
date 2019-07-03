@@ -5,6 +5,7 @@ import { alertActions } from "../actions";
 export const recipeActions = {
   add,
   find,
+  get,
   handleChange,
   handleDrop,
   addListItem,
@@ -15,15 +16,16 @@ function add(history) {
   return (dispatch, getState) => {
     dispatch(request());
     let state = getState();
-    recipeServices.add(state.recipe).then(
+    const { recipe, authentication } = state;
+    recipeServices.add(recipe, authentication.user.id).then(
       response => {
         let message = {
           type: "success",
           text: "Recipe Successfully added"
         };
-        dispatch(alertActions.addAlert(message));
-        dispatch(success(state.recipe));
+        dispatch(success());
         history.push("/");
+        dispatch(alertActions.addAlert(message));
       },
       error => {
         dispatch(failure(error));
@@ -35,7 +37,7 @@ function add(history) {
     return { type: recipeConstants.ADD_RECIPE_REQUEST };
   }
   function success(recipe) {
-    return { type: recipeConstants.ADD_RECIPE_SUCCESS, recipe };
+    return { type: recipeConstants.ADD_RECIPE_SUCCESS };
   }
   function failure(error) {
     return { type: recipeConstants.ADD_RECIPE_FAILURE, error };
@@ -46,7 +48,7 @@ function find(url) {
   return dispatch => {
     dispatch(request());
     return recipeServices
-      .find(url)
+      .scrape(url)
       .then(recipe => {
         if (!recipe.name || !recipe.ingredients || !recipe.instructions) {
           var error = "The recipe failed to be secured";
@@ -77,6 +79,12 @@ function find(url) {
   function failure(error) {
     return { type: recipeConstants.FIND_RECIPE_FAILURE, error };
   }
+}
+
+function get(id) {
+  return dispatch => {
+    return recipeServices.findById(id);
+  };
 }
 
 function handleChange(name, value) {

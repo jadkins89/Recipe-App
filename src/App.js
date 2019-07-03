@@ -11,8 +11,19 @@ import {
   TopNav,
   AddRecipe
 } from "./components/";
+import Recipe from "./components/Recipe";
+import { alertActions } from "./actions";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    const { dispatch, history } = this.props;
+    history.listen((location, action) => {
+      dispatch(alertActions.clearAlert());
+    });
+  }
+
   render() {
     return (
       <div>
@@ -24,6 +35,7 @@ class App extends Component {
         <Switch>
           <ProtectedRoute exact path="/" component={Home} />
           <ProtectedRoute exact path="/addrecipe" component={AddRecipe} />
+          <Route path="/recipes/:recipe_id" component={Recipe} />
         </Switch>
       </div>
     );

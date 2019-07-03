@@ -25,7 +25,7 @@ export default function recipe(state = initialState, action = {}) {
       return Object.assign({}, state, {
         isFetching: false,
         isAdded: true,
-        ...action.recipe
+        ...initialState
       });
     case recipeConstants.ADD_RECIPE_FAILURE:
       return Object.assign({}, state, {
