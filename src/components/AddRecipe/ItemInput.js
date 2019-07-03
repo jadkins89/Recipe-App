@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { MDBInput } from "mdbreact";
+import { MDBInput, MDBIcon } from "mdbreact";
 import { Draggable } from "react-beautiful-dnd";
 import { recipeActions } from "../../actions";
 
@@ -9,10 +9,32 @@ class ItemInput extends Component {
     const { item, name, index, handleChange, deleteListItem } = this.props;
     const itemName = name + "-" + index;
     let instruction = name === "instructions";
-    let order;
+    let inputField;
 
     if (instruction) {
-      order = <span className="mt-auto mr-2">{index + 1}.</span>;
+      inputField = (
+        <>
+          <span className="mt-auto mr-2">{index + 1}.</span>
+          <textarea
+            className="flex-fill m-0 my-0"
+            name={itemName}
+            value={item}
+            onChange={handleChange}
+          />
+        </>
+      );
+    } else {
+      inputField = (
+        <>
+          <MDBIcon className="my-auto mr-2" icon="plus" />
+          <input
+            className="flex-fill m-0 my-0"
+            name={itemName}
+            value={item}
+            onChange={handleChange}
+          />
+        </>
+      );
     }
 
     return (
@@ -25,18 +47,7 @@ class ItemInput extends Component {
             className="d-flex p-1 justify-content-between"
             key={itemName}
           >
-            {order}
-            <MDBInput
-              containerClass="flex-fill m-0"
-              className="my-0"
-              icon={instruction ? null : "plus"}
-              type={instruction ? "textarea" : null}
-              name={itemName}
-              value={item}
-              onChange={handleChange}
-              size="sm"
-              outline
-            />
+            {inputField}
             <button
               className="border-0"
               name={itemName}
@@ -53,7 +64,10 @@ class ItemInput extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    handleChange: event => dispatch(recipeActions.handleChange(event)),
+    handleChange: event =>
+      dispatch(
+        recipeActions.handleChange(event.target.name, event.target.value)
+      ),
     deleteListItem: event => {
       event.preventDefault();
       dispatch(recipeActions.deleteListItem(event.target.name));

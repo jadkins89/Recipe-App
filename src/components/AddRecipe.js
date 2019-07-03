@@ -8,7 +8,8 @@ import {
   MDBCardBody,
   MDBInput,
   MDBBtn,
-  MDBIcon
+  MDBIcon,
+  MDBCardText
 } from "mdbreact";
 
 import UrlSubmitBox from "./AddRecipe/UrlSubmitBox";
@@ -72,6 +73,15 @@ class AddRecipe extends Component {
                         </MDBBtn>
                       </MDBContainer>
                     </MDBRow>
+                    <MDBCol className="text-center mt-2 p-0">
+                      <MDBCardText>
+                        Modify to your hearts delight. Drag and drop items from
+                        the left to change order. Submit once ready.
+                      </MDBCardText>
+                      <div className="float-right">
+                        <MDBBtn style={{ borderRadius: `28px` }}>Submit</MDBBtn>
+                      </div>
+                    </MDBCol>
                   </form>
                 </MDBCardBody>
               </MDBCard>

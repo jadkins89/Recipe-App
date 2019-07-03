@@ -13,7 +13,6 @@ import {
 } from "mdbreact";
 import AlertMessagesList from "../AlertMessagesList";
 import { recipeActions } from "../../actions";
-// Add alert message when url fails
 
 class UrlSubmitBox extends Component {
   constructor(props) {
@@ -50,9 +49,10 @@ class UrlSubmitBox extends Component {
                   Add a recipe to your Cook Book!
                 </MDBCardTitle>
                 <MDBCardText>
-                  You can add a recipe in one of two ways. Simply copy the URL
-                  from a recipe site you have visited in the box below or select
-                  Manual to input a recipe on your own.
+                  If you would like to upload a recipe from a supported site,
+                  then simply copy the URL from the recipe site and hit Submit
+                  to populate the form below. Otherwise, you can skip ahead and
+                  enter in a recipe manually.
                 </MDBCardText>
                 <form className="grey-text" onSubmit={handleSubmit}>
                   <MDBInput

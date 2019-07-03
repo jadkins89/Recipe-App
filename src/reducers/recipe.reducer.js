@@ -58,13 +58,13 @@ export default function recipe(state = initialState, action = {}) {
         }
       };
     case recipeConstants.MODIFY_RECIPE_LIST:
-      let newList = [...state.recipe[action.name]];
-      newList[action.index] = action.value;
       return {
         ...state,
         recipe: {
           ...state.recipe,
-          [action.name]: newList
+          [action.name]: state.recipe[action.name].map((item, index) =>
+            index === action.index ? action.value : item
+          )
         }
       };
     case recipeConstants.MODIFY_RECIPE_ORDER:
