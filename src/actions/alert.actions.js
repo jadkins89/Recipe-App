@@ -1,4 +1,4 @@
-import { alertConstants } from '../constants';
+import { alertConstants } from "../constants";
 
 export const alertActions = {
   addAlert,
@@ -7,21 +7,21 @@ export const alertActions = {
 };
 
 function addAlert(message) {
-  return { 
+  return {
     type: alertConstants.ADD_ALERT,
     message
-  }
+  };
 }
 
 function deleteAlert(id) {
-  return { 
+  return {
     type: alertConstants.DELETE_ALERT,
     id
-  }
+  };
 }
 
 function clearAlert() {
   return {
     type: alertConstants.CLEAR_ALERT
-  }
+  };
 }

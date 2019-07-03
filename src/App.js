@@ -11,18 +11,8 @@ import {
   TopNav,
   AddRecipe
 } from "./components/";
-import { alertActions } from "./actions";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    const { dispatch, history } = this.props;
-    history.listen((location, action) => {
-      dispatch(alertActions.clearAlert());
-    });
-  }
-
   render() {
     return (
       <div>

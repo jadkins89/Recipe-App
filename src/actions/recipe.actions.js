@@ -11,24 +11,25 @@ export const recipeActions = {
   deleteListItem
 };
 
-function add(recipe) {
-  return dispatch => {
+function add(history) {
+  return (dispatch, getState) => {
     dispatch(request());
-    recipeServices
-      .add(recipe)
-      .then(response => {
+    let state = getState();
+    recipeServices.add(state.recipe).then(
+      response => {
         let message = {
           type: "success",
           text: "Recipe Successfully added"
         };
         dispatch(alertActions.addAlert(message));
-        // move to different page
-        // alert user that recipes was stored successfully
-      })
-      .catch(error => {
+        dispatch(success(state.recipe));
+        history.push("/");
+      },
+      error => {
         dispatch(failure(error));
         console.log(error);
-      });
+      }
+    );
   };
   function request() {
     return { type: recipeConstants.ADD_RECIPE_REQUEST };

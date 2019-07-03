@@ -6,7 +6,7 @@ export const recipeServices = {
 };
 
 function add(recipe) {
-  const requestOptions = requestHandler("POST", recipe);
+  const requestOptions = requestHandler("POST", { recipe: recipe });
   return fetch(`${config.apiUrl}/recipes/add`, requestOptions)
     .then(response => {
       return JSON.parse(response);

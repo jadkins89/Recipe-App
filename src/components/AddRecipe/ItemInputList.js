@@ -48,7 +48,7 @@ class ItemInputList extends Component {
 }
 
 const mapStateToProps = state => {
-  const { recipe } = state.recipe;
+  const { recipe } = state;
   return {
     recipe
   };

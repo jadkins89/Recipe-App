@@ -1,22 +1,31 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { MDBInput, MDBIcon } from "mdbreact";
+import { MDBIcon } from "mdbreact";
 import { Draggable } from "react-beautiful-dnd";
 import { recipeActions } from "../../actions";
 
 class ItemInput extends Component {
+  handleHeight = event => {
+    event.target.style.height = "";
+    event.target.style.height = event.target.scrollHeight + "px";
+  };
+
+  revertHeight = event => {
+    event.target.style.height = "60px";
+  };
+
   render() {
     const { item, name, index, handleChange, deleteListItem } = this.props;
     const itemName = name + "-" + index;
-    let instruction = name === "instructions";
+    let ingredients = name === "ingredients";
     let inputField;
 
-    if (instruction) {
+    if (ingredients) {
       inputField = (
         <>
-          <span className="mt-auto mr-2">{index + 1}.</span>
-          <textarea
-            className="flex-fill m-0 my-0"
+          <MDBIcon className="my-auto mr-2" icon="plus grey-text" />
+          <input
+            className="flex-fill form-control mr-1"
             name={itemName}
             value={item}
             onChange={handleChange}
@@ -26,9 +35,12 @@ class ItemInput extends Component {
     } else {
       inputField = (
         <>
-          <MDBIcon className="my-auto mr-2" icon="plus" />
-          <input
-            className="flex-fill m-0 my-0"
+          <span className="mt-auto mr-2">{index + 1}.</span>
+          <textarea
+            className="flex-fill form-control mr-1"
+            onFocus={this.handleHeight}
+            onInput={this.handleHeight}
+            onBlur={this.revertHeight}
             name={itemName}
             value={item}
             onChange={handleChange}

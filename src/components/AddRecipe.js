@@ -14,11 +14,12 @@ import {
 
 import UrlSubmitBox from "./AddRecipe/UrlSubmitBox";
 import ItemInputList from "./AddRecipe/ItemInputList";
+import TimeInput from "./AddRecipe/TimeInput";
 import { recipeActions } from "../actions";
 
 class AddRecipe extends Component {
   render() {
-    const { handleChange, addListItem } = this.props;
+    const { handleChange, handleSubmit, addListItem } = this.props;
     const { name } = this.props.recipe;
     return (
       <MDBContainer className="p-0">
@@ -28,7 +29,7 @@ class AddRecipe extends Component {
             <MDBCol size="8" className="m-auto">
               <MDBCard className="mt-3">
                 <MDBCardBody>
-                  <form noValidate>
+                  <form onSubmit={handleSubmit} noValidate>
                     <MDBRow>
                       <MDBCol size="6" className="m-auto">
                         <MDBInput
@@ -42,6 +43,12 @@ class AddRecipe extends Component {
                           required
                         />
                       </MDBCol>
+                    </MDBRow>
+                    <MDBRow>
+                      <MDBContainer>
+                        <TimeInput />
+                        <hr />
+                      </MDBContainer>
                     </MDBRow>
                     <MDBRow>
                       <MDBContainer>
@@ -79,7 +86,9 @@ class AddRecipe extends Component {
                         the left to change order. Submit once ready.
                       </MDBCardText>
                       <div className="float-right">
-                        <MDBBtn style={{ borderRadius: `28px` }}>Submit</MDBBtn>
+                        <MDBBtn type="submit" style={{ borderRadius: `28px` }}>
+                          Submit
+                        </MDBBtn>
                       </div>
                     </MDBCol>
                   </form>
@@ -94,19 +103,24 @@ class AddRecipe extends Component {
 }
 
 function mapStateToProps(state) {
-  const { recipe } = state.recipe;
+  const { recipe } = state;
   return {
     recipe
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
   return {
     handleChange: event =>
       dispatch(
         recipeActions.handleChange(event.target.name, event.target.value)
       ),
-    addListItem: event => dispatch(recipeActions.addListItem(event.target.name))
+    addListItem: event =>
+      dispatch(recipeActions.addListItem(event.target.name)),
+    handleSubmit: event => {
+      event.preventDefault();
+      dispatch(recipeActions.add(ownProps.history));
+    }
   };
 }
 
