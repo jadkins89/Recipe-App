@@ -32,9 +32,14 @@ function scrape(url) {
 function findById(id) {
   const requestOptions = requestHandler("GET");
   return fetch(`${config.apiUrl}/recipes/find/${id}`, requestOptions)
-    .then(handleResponse)
     .then(response => {
-      console.log(response);
+      return response.json().then(data => {
+        return data;
+      });
+    })
+    .catch(error => {
+      console.log(error);
+      return error;
     });
 }
 

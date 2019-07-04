@@ -83,8 +83,27 @@ function find(url) {
 
 function get(id) {
   return dispatch => {
-    return recipeServices.findById(id);
+    dispatch(request());
+    recipeServices
+      .findById(id)
+      .then(recipe => {
+        dispatch(success(recipe));
+      })
+      .catch(error => {
+        console.log(error);
+        dispatch(failure(error));
+      });
   };
+
+  function request() {
+    return { type: recipeConstants.GET_RECIPE_REQUEST };
+  }
+  function success(recipe) {
+    return { type: recipeConstants.GET_RECIPE_SUCCESS, recipe };
+  }
+  function failure(error) {
+    return { type: recipeConstants.GET_RECIPE_FAILURE, error };
+  }
 }
 
 function handleChange(name, value) {

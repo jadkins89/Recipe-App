@@ -9,12 +9,23 @@ class Recipe extends Component {
   }
 
   render() {
+    const { recipe } = this.props;
     return (
       <div className="container">
-        <h4>recipes!</h4>
+        <h4>{recipe.name}</h4>
+        {recipe.ingredients.map(item => {
+          return <p>{item}</p>;
+        })}
       </div>
     );
   }
 }
 
-export default connect()(Recipe);
+function mapStateToProps(state) {
+  const { recipe } = state;
+  return {
+    recipe
+  };
+}
+
+export default connect(mapStateToProps)(Recipe);

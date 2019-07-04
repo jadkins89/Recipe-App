@@ -48,43 +48,51 @@ export default function recipe(state = initialState, action = {}) {
         error: action.error
       });
     case recipeConstants.MODIFY_RECIPE_NAME:
-      return {
-        ...state,
+      return Object.assign({}, state, {
         [action.name]: action.value
-      };
+      });
     case recipeConstants.MODIFY_RECIPE_TIME:
-      return {
-        ...state,
+      return Object.assign({}, state, {
         time: {
           ...state.time,
           [action.name]: action.value
         }
-      };
+      });
     case recipeConstants.MODIFY_RECIPE_LIST:
-      return {
-        ...state,
+      return Object.assign({}, state, {
         [action.name]: state[action.name].map((item, index) =>
           index === action.index ? action.value : item
         )
-      };
+      });
     case recipeConstants.MODIFY_RECIPE_ORDER:
-      return {
-        ...state,
+      return Object.assign({}, state, {
         [action.name]: action.value
-      };
+      });
     case recipeConstants.ADD_RECIPE_LIST_ITEM:
       let newListAdd = state[action.name].concat([""]);
-      return {
-        ...state,
+      return Object.assign({}, state, {
         [action.name]: newListAdd
-      };
+      });
     case recipeConstants.DELETE_RECIPE_LIST_ITEM:
       let newListDelete = [...state[action.name]];
       newListDelete.splice(action.index, 1);
-      return {
-        ...state,
+      return Object.assign({}, state, {
         [action.name]: newListDelete
-      };
+      });
+    case recipeConstants.GET_RECIPE_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case recipeConstants.GET_RECIPE_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        ...action.recipe
+      });
+    case recipeConstants.GET_RECIPE_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        error: action.error
+      });
     default:
       return state;
   }
