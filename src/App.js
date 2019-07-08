@@ -35,7 +35,7 @@ class App extends Component {
         <Switch>
           <ProtectedRoute exact path="/" component={Home} />
           <ProtectedRoute exact path="/addrecipe" component={AddRecipe} />
-          <Route path="/recipes/:recipe_id" component={Recipe} />
+          <Route path="/recipes/:recipe_id/:recipe_name?" component={Recipe} />
         </Switch>
       </div>
     );

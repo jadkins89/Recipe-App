@@ -81,16 +81,26 @@ function find(url) {
   }
 }
 
-function get(id) {
+function get(id, name, history) {
   return dispatch => {
     dispatch(request());
     recipeServices
       .findById(id)
       .then(recipe => {
+        let url_name = recipe.name
+          .replace(/[.,/#!$%^&*;:{}=\-_'`~()\s]/g, "")
+          .toLowerCase();
+        if (!name) {
+          history.push(`/recipes/${id}/${url_name}`);
+        } else if (name !== url_name) {
+          history.push(`/recipes/${id}/${url_name}`);
+          // Should handle 404
+        }
         dispatch(success(recipe));
       })
       .catch(error => {
-        console.log(error);
+        // Should handle 404
+        history.push("/");
         dispatch(failure(error));
       });
   };

@@ -33,13 +33,16 @@ function findById(id) {
   const requestOptions = requestHandler("GET");
   return fetch(`${config.apiUrl}/recipes/find/${id}`, requestOptions)
     .then(response => {
-      return response.json().then(data => {
-        return data;
-      });
+      if (response.status !== 200) {
+        return Promise.reject(response);
+      } else {
+        return response.json().then(data => {
+          return data;
+        });
+      }
     })
     .catch(error => {
-      console.log(error);
-      return error;
+      return Promise.reject(error);
     });
 }
 
