@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody } from "mdbreact";
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBCard,
+  MDBCardBody,
+  MDBIcon
+} from "mdbreact";
 import { recipeActions } from "../actions";
 
 class Recipe extends Component {
@@ -13,6 +20,7 @@ class Recipe extends Component {
 
   render() {
     const { recipe } = this.props;
+
     const times = Object.keys(recipe.time).map((key, index) => {
       return (
         <div className="m-0 p-0" key={key}>
@@ -24,6 +32,15 @@ class Recipe extends Component {
               </div>
             </div>
           ) : null}
+        </div>
+      );
+    });
+
+    const ingredients = recipe.ingredients.map((ingredient, index) => {
+      return (
+        <div className="d-flex m-0 p-0" key={"ingredient-" + index}>
+          <MDBIcon className="my-auto mr-3" icon="plus grey-text" />
+          <p className="m-0">{ingredient}</p>
         </div>
       );
     });
@@ -48,6 +65,7 @@ class Recipe extends Component {
                     </div>
                     <p className="h5">Ingredients</p>
                     <hr />
+                    {ingredients}
                   </MDBCardBody>
                 </MDBCard>
               </MDBCol>
