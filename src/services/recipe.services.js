@@ -3,7 +3,8 @@ import config from "../config";
 export const recipeServices = {
   add,
   scrape,
-  findById
+  findById,
+  findByUserId
 };
 
 function add(recipe, user_id) {
@@ -31,7 +32,7 @@ function scrape(url) {
 
 function findById(id) {
   const requestOptions = requestHandler("GET");
-  return fetch(`${config.apiUrl}/recipes/find/${id}`, requestOptions)
+  return fetch(`${config.apiUrl}/recipes/find_one/${id}`, requestOptions)
     .then(response => {
       if (response.status !== 200) {
         return Promise.reject(response);
@@ -44,6 +45,22 @@ function findById(id) {
     .catch(error => {
       return Promise.reject(error);
     });
+}
+
+function findByUserId(id) {
+  const requestOptions = requestHandler("GET");
+  return fetch(
+    `${config.apiUrl}/recipes/find_by_user_id/${id}`,
+    requestOptions
+  ).then(response => {
+    if (response.status !== 200) {
+      return Promise.reject(response);
+    } else {
+      return response.json().then(data => {
+        return data;
+      });
+    }
+  });
 }
 
 function requestHandler(type, body) {

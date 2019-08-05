@@ -1,4 +1,4 @@
-import { recipeConstants } from "../constants";
+import { recipeConstants, userRecipesConstants } from "../constants";
 import { recipeServices } from "../services";
 import { alertActions } from "../actions";
 
@@ -6,6 +6,7 @@ export const recipeActions = {
   add,
   find,
   get,
+  getAllByUserId,
   handleChange,
   handleDrop,
   addListItem,
@@ -113,6 +114,30 @@ function get(id, name, history) {
   }
   function failure(error) {
     return { type: recipeConstants.GET_RECIPE_FAILURE, error };
+  }
+}
+
+function getAllByUserId(id) {
+  return dispatch => {
+    dispatch(request);
+    recipeServices
+      .findByUserId(id)
+      .then(recipes => {
+        dispatch(success(recipes));
+      })
+      .catch(error => {
+        dispatch(failure(error));
+      });
+  };
+
+  function request() {
+    return { type: userRecipesConstants.GET_RECIPES_REQUEST };
+  }
+  function success(recipes) {
+    return { type: userRecipesConstants.GET_RECIPES_SUCCESS, recipes };
+  }
+  function failure(error) {
+    return { type: userRecipesConstants.GET_RECIPES_FAILURE, error };
   }
 }
 
