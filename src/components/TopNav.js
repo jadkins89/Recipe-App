@@ -19,7 +19,7 @@ class TopNav extends Component {
     this.state = {
       collapse: false,
       path: {
-        profile: "/",
+        profile: "/profile",
         addRecipe: "/addrecipe"
       }
     };
@@ -74,7 +74,7 @@ class TopNav extends Component {
                   />
                 </MDBNavItem>
                 <MDBNavItem active={activePath(path.profile)}>
-                  <MDBNavLink to="/">Profile</MDBNavLink>
+                  <MDBNavLink to="/profile">Profile</MDBNavLink>
                 </MDBNavItem>
                 <MDBNavItem active={activePath(path.addRecipe)}>
                   <MDBNavLink to="/addrecipe">Add Recipe</MDBNavLink>

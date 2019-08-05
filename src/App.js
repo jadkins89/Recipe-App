@@ -9,7 +9,8 @@ import {
   Home,
   Register,
   TopNav,
-  AddRecipe
+  AddRecipe,
+  Profile
 } from "./components/";
 import Recipe from "./components/Recipe";
 import { alertActions } from "./actions";
@@ -34,6 +35,7 @@ class App extends Component {
         </Switch>
         <Switch>
           <ProtectedRoute exact path="/" component={Home} />
+          <ProtectedRoute exact path="/profile" component={Profile} />
           <ProtectedRoute exact path="/addrecipe" component={AddRecipe} />
           <Route path="/recipes/:recipe_id/:recipe_name?" component={Recipe} />
         </Switch>
