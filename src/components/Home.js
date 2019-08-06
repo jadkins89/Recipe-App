@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { MDBContainer } from "mdbreact";
+import { MDBContainer, MDBRow, MDBCol, MDBNavLink } from "mdbreact";
 import AlertMessagesList from "./AlertMessagesList";
 import { recipeActions } from "../actions";
+import { SideNav } from "./";
 
 class Home extends Component {
   componentDidMount() {
@@ -12,16 +13,26 @@ class Home extends Component {
   render() {
     const { user, recipes } = this.props;
     return (
-      <MDBContainer>
-        <AlertMessagesList />
-        <h1>Welcome {user.first_name}</h1>
-        {recipes
-          ? recipes.map((recipe, index) => {
-              return (
-                <h4 key={"recipe_" + user.id + "_" + index}>{recipe.name}</h4>
-              );
-            })
-          : null}
+      <MDBContainer className="d-flex">
+        <MDBRow className="mt-3">
+          <SideNav />
+          <MDBCol>
+            <AlertMessagesList />
+            <h5>Recipes</h5>
+            {recipes
+              ? recipes.map((recipe, index) => {
+                  return (
+                    <MDBNavLink
+                      key={"recipe_" + user.id + "_" + index}
+                      to={"recipes/" + recipe.id}
+                    >
+                      {recipe.name}
+                    </MDBNavLink>
+                  );
+                })
+              : null}
+          </MDBCol>
+        </MDBRow>
       </MDBContainer>
     );
   }

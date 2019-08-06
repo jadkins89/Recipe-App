@@ -1,13 +1,13 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import ItemInput from "./ItemInput";
 import { recipeActions } from "../../actions";
 
-class ItemInputList extends Component {
-  onDragEnd = result => {
-    const { recipe, name, handleDrop } = this.props;
+const ItemInputList = props => {
+  const onDragEnd = result => {
+    const { recipe, name, handleDrop } = props;
     const { destination, source } = result;
 
     if (!destination || destination.index === source.index) {
@@ -22,30 +22,24 @@ class ItemInputList extends Component {
     handleDrop(name, newList);
   };
 
-  render() {
-    const { name, recipe } = this.props;
-    const items = recipe[name].map((item, index) => (
-      <ItemInput
-        name={name}
-        index={index}
-        item={item}
-        key={name + "-" + index}
-      />
-    ));
-    return (
-      <DragDropContext onDragEnd={this.onDragEnd}>
-        <Droppable droppableId={"droppable-" + name}>
-          {provided => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
-              {items}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-    );
-  }
-}
+  const { name, recipe } = props;
+  const items = recipe[name].map((item, index) => (
+    <ItemInput name={name} index={index} item={item} key={name + "-" + index} />
+  ));
+
+  return (
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Droppable droppableId={"droppable-" + name}>
+        {provided => (
+          <div ref={provided.innerRef} {...provided.droppableProps}>
+            {items}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+    </DragDropContext>
+  );
+};
 
 const mapStateToProps = state => {
   const { recipe } = state;
@@ -54,11 +48,9 @@ const mapStateToProps = state => {
   };
 };
 
-function mapDispatchToProps(dispatch) {
-  return {
-    handleDrop: (name, value) => dispatch(recipeActions.handleDrop(name, value))
-  };
-}
+const mapDispatchToProps = {
+  handleDrop: (name, value) => recipeActions.handleDrop(name, value)
+};
 
 export default connect(
   mapStateToProps,

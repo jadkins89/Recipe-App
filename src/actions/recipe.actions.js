@@ -7,6 +7,7 @@ export const recipeActions = {
   find,
   get,
   getAllByUserId,
+  getFavorites,
   handleChange,
   handleDrop,
   addListItem,
@@ -92,9 +93,9 @@ function get(id, name, history) {
           .replace(/[.,/#!$%^&*;:{}=\-_'`~()\s]/g, "")
           .toLowerCase();
         if (!name) {
-          history.push(`/recipes/${id}/${url_name}`);
+          history.replace(`/recipes/${id}/${url_name}`);
         } else if (name !== url_name) {
-          history.push(`/recipes/${id}/${url_name}`);
+          history.replace(`/recipes/${id}/${url_name}`);
           // Should handle 404
         }
         dispatch(success(recipe));
@@ -117,11 +118,35 @@ function get(id, name, history) {
   }
 }
 
-function getAllByUserId(id) {
+function getAllByUserId(id, favorites) {
   return dispatch => {
     dispatch(request);
     recipeServices
-      .findByUserId(id)
+      .findByUserId(id, favorites)
+      .then(recipes => {
+        dispatch(success(recipes));
+      })
+      .catch(error => {
+        dispatch(failure(error));
+      });
+  };
+
+  function request() {
+    return { type: userRecipesConstants.GET_RECIPES_REQUEST };
+  }
+  function success(recipes) {
+    return { type: userRecipesConstants.GET_RECIPES_SUCCESS, recipes };
+  }
+  function failure(error) {
+    return { type: userRecipesConstants.GET_RECIPES_FAILURE, error };
+  }
+}
+
+function getFavorites(id) {
+  return dispatch => {
+    dispatch(request);
+    recipeServices
+      .findFavorites(id)
       .then(recipes => {
         dispatch(success(recipes));
       })

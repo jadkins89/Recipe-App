@@ -44,6 +44,15 @@ class Recipe extends Component {
         </div>
       );
     });
+
+    const instructions = recipe.instructions.map((instruction, index) => {
+      return (
+        <div className="d-flex m-0 pb-2" key={"instruction-" + index}>
+          <MDBIcon className="my-1 mr-3" icon="plus grey-text" />
+          <p className="m-0">{instruction}</p>
+        </div>
+      );
+    });
     return (
       <>
         {recipe.isFetching ? (
@@ -63,9 +72,12 @@ class Recipe extends Component {
                       <i className="far fa-clock fa-2x px-3 my-auto text-muted" />
                       {times}
                     </div>
-                    <p className="h5">Ingredients</p>
+                    <p className="h5 my-2">Ingredients</p>
                     <hr />
                     {ingredients}
+                    <p className="h5 mt-3 mb-2">Instructions</p>
+                    <hr />
+                    {instructions}
                   </MDBCardBody>
                 </MDBCard>
               </MDBCol>

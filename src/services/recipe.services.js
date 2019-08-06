@@ -4,7 +4,8 @@ export const recipeServices = {
   add,
   scrape,
   findById,
-  findByUserId
+  findByUserId,
+  findFavorites
 };
 
 function add(recipe, user_id) {
@@ -51,6 +52,22 @@ function findByUserId(id) {
   const requestOptions = requestHandler("GET");
   return fetch(
     `${config.apiUrl}/recipes/find_by_user_id/${id}`,
+    requestOptions
+  ).then(response => {
+    if (response.status !== 200) {
+      return Promise.reject(response);
+    } else {
+      return response.json().then(data => {
+        return data;
+      });
+    }
+  });
+}
+
+function findFavorites(id) {
+  const requestOptions = requestHandler("GET");
+  return fetch(
+    `${config.apiUrl}/recipes/find_favorites/${id}`,
     requestOptions
   ).then(response => {
     if (response.status !== 200) {

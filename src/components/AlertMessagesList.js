@@ -9,7 +9,7 @@ class AlertMessagesList extends Component {
   render() {
     const messages = this.props.messages.map(message => (
       <AlertMessage
-        key={message.id}
+        key={"alert_message_" + message.id}
         message={message}
         deleteAlert={this.props.deleteAlert}
       />

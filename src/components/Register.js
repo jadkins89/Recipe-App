@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   MDBContainer,
   MDBRow,
@@ -146,4 +146,4 @@ class Register extends Component {
   }
 }
 
-export default withRouter(connect(null)(Register));
+export default connect(null)(Register);
