@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { recipeActions } from "../actions";
 import RecipeComponent from "./Recipe.component";
+import { Loading } from "./";
 
 class Recipe extends Component {
   componentDidMount() {
@@ -17,13 +18,7 @@ class Recipe extends Component {
 
     // Loading screen for user / recipe loading and url modification
     if (isFetching || recipe.isFetching || history.action === "PUSH") {
-      return (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-border mt-5" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>
-      );
+      return <Loading />;
     } else {
       return (
         <RecipeComponent
