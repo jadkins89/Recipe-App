@@ -10,9 +10,9 @@ import {
   Register,
   TopNav,
   AddRecipe,
-  Profile
+  Profile,
+  Recipe
 } from "./components/";
-import Recipe from "./components/Recipe";
 import { alertActions } from "./actions";
 
 class App extends Component {

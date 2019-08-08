@@ -6,3 +6,4 @@ export { default as ProtectedRoute } from "./ProtectedRoute";
 export { default as AddRecipe } from "./AddRecipe";
 export { default as Profile } from "./Profile";
 export { default as SideNav } from "./SideNav";
+export { default as Recipe } from "./Recipe.container";
