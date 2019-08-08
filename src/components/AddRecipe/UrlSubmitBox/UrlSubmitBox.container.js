@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { recipeActions } from "../../actions";
+import { recipeActions } from "../../../actions";
 import UrlSubmitBoxComponent from "./UrlSubmitBox.component";
 
 class UrlSubmitBox extends Component {

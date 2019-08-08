@@ -10,7 +10,7 @@ import {
   MDBInput,
   MDBBtn
 } from "mdbreact";
-import AlertMessagesList from "../AlertMessagesList";
+import AlertMessagesList from "../../AlertMessagesList";
 
 const UrlSubmitBoxComponent = props => {
   const { handleSubmit, handleChange, url } = props;

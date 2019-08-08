@@ -12,8 +12,10 @@ import {
   MDBCardText
 } from "mdbreact";
 
-import { UrlSubmitBox, ItemInputList, TimeInput } from "./AddRecipeComponents";
-import { recipeActions } from "../actions";
+import UrlSubmitBox from "./UrlSubmitBox";
+import ItemInputList from "./ItemInputList";
+import TimeInput from "./TimeInput.js";
+import { recipeActions } from "../../actions";
 
 class AddRecipe extends Component {
   render() {
