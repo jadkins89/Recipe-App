@@ -5,23 +5,55 @@ import RecipeComponent from "./Recipe.component";
 
 class Recipe extends Component {
   componentDidMount() {
-    const { dispatch, history } = this.props;
+    const { getRecipe, history } = this.props;
     let id = this.props.match.params.recipe_id;
     let name = this.props.match.params.recipe_name;
-    dispatch(recipeActions.get(id, name, history));
+    getRecipe(id, name, history);
   }
 
   render() {
-    const { recipe } = this.props;
-    return <RecipeComponent recipe={recipe} />;
+    let recipe_id = this.props.match.params.recipe_id;
+    const { recipe, user, isFetching, setFavorite, history } = this.props;
+
+    // Loading screen for user / recipe loading and url modification
+    if (isFetching || recipe.isFetching || history.action === "PUSH") {
+      return (
+        <div className="d-flex justify-content-center">
+          <div className="spinner-border mt-5" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <RecipeComponent
+          recipe={recipe}
+          setFavorite={setFavorite}
+          recipe_id={recipe_id}
+          user_id={user.id}
+        />
+      );
+    }
   }
 }
 
 function mapStateToProps(state) {
+  const { isFetching, user } = state.authentication;
   const { recipe } = state;
   return {
-    recipe
+    recipe,
+    isFetching,
+    user
   };
 }
 
-export default connect(mapStateToProps)(Recipe);
+const mapDispatchToProps = {
+  getRecipe: (id, name, history) => recipeActions.get(id, name, history),
+  setFavorite: (user_id, recipe_id, value) =>
+    recipeActions.setFavorite(user_id, recipe_id, value)
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Recipe);

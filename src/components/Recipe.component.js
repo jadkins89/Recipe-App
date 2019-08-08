@@ -7,6 +7,17 @@ import {
   MDBCardBody,
   MDBIcon
 } from "mdbreact";
+import styled from "styled-components";
+import classNames from "classnames";
+
+const StyledStar = styled.span`
+  font-size: 20px;
+  float: right;
+  padding-top: 8px;
+  &:hover {
+    cursor: pointer;
+  }
+`;
 
 const RecipeComponent = props => {
   const { recipe } = props;
@@ -44,38 +55,53 @@ const RecipeComponent = props => {
     );
   });
 
+  const onClick = event => {
+    const { setFavorite, recipe_id, user_id } = props;
+    if (event.target.className === "far fa-star") {
+      event.target.className = "fas fa-star";
+      setFavorite(user_id, recipe_id, true);
+    } else {
+      event.target.className = "far fa-star";
+      setFavorite(user_id, recipe_id, false);
+    }
+  };
+
+  const favoriteIcon = classNames({
+    "far fa-star": !recipe.favorite,
+    "fas fa-star": recipe.favorite
+  });
+
   return (
-    <>
-      {recipe.isFetching ? (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-border mt-5" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>
-      ) : (
-        <MDBContainer className="p-0">
-          <MDBRow>
-            <MDBCol size="12" lg="8" className="m-auto">
-              <MDBCard className="mt-3">
-                <MDBCardBody>
-                  <p className="h2 text-center mb-4">{recipe.name}</p>
-                  <div className="d-flex justify-content-center">
-                    <i className="far fa-clock fa-2x px-3 my-auto text-muted" />
-                    {times}
-                  </div>
-                  <p className="h5 my-2">Ingredients</p>
-                  <hr />
-                  {ingredients}
-                  <p className="h5 mt-3 mb-2">Instructions</p>
-                  <hr />
-                  {instructions}
-                </MDBCardBody>
-              </MDBCard>
-            </MDBCol>
-          </MDBRow>
-        </MDBContainer>
-      )}
-    </>
+    <MDBContainer className="p-0">
+      <MDBRow>
+        <MDBCol size="12" lg="8" className="m-auto">
+          <MDBCard className="mt-3">
+            <MDBCardBody>
+              <p className="h2 text-center mb-4">
+                {recipe.name}
+                <StyledStar>
+                  <i
+                    className={favoriteIcon}
+                    onClick={onClick}
+                    title="Favorite"
+                  />
+                </StyledStar>
+              </p>
+              <div className="d-flex justify-content-center">
+                <i className="far fa-clock fa-2x px-3 my-auto text-muted" />
+                {times}
+              </div>
+              <p className="h5 my-2">Ingredients</p>
+              <hr />
+              {ingredients}
+              <p className="h5 mt-3 mb-2">Instructions</p>
+              <hr />
+              {instructions}
+            </MDBCardBody>
+          </MDBCard>
+        </MDBCol>
+      </MDBRow>
+    </MDBContainer>
   );
 };
 

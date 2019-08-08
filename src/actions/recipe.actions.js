@@ -8,6 +8,7 @@ export const recipeActions = {
   get,
   getAllByUserId,
   getFavorites,
+  setFavorite,
   handleChange,
   handleDrop,
   addListItem,
@@ -38,7 +39,7 @@ function add(history) {
   function request() {
     return { type: recipeConstants.ADD_RECIPE_REQUEST };
   }
-  function success(recipe) {
+  function success() {
     return { type: recipeConstants.ADD_RECIPE_SUCCESS };
   }
   function failure(error) {
@@ -84,21 +85,32 @@ function find(url) {
 }
 
 function get(id, name, history) {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch(request());
     recipeServices
       .findById(id)
       .then(recipe => {
-        let url_name = recipe.name
-          .replace(/[.,/#!$%^&*;:{}=\-_'`~()\s]/g, "")
-          .toLowerCase();
-        if (!name) {
-          history.replace(`/recipes/${id}/${url_name}`);
-        } else if (name !== url_name) {
-          history.replace(`/recipes/${id}/${url_name}`);
-          // Should handle 404
-        }
-        dispatch(success(recipe));
+        let state = getState();
+        const { user } = state.authentication;
+        recipeServices
+          .isFavorite(user.id, id)
+          .then(favorite => {
+            recipe.favorite = favorite;
+            let url_name = recipe.name
+              .replace(/[.,/#!$%^&*;:{}=\-_'`~()\s]/g, "")
+              .toLowerCase();
+            if (!name) {
+              history.replace(`/recipes/${id}/${url_name}`);
+            } else if (name !== url_name) {
+              history.replace(`/recipes/${id}/${url_name}`);
+              // Should handle 404
+            }
+            dispatch(success(recipe));
+          })
+          .catch(error => {
+            history.push("/");
+            dispatch(failure(error));
+          });
       })
       .catch(error => {
         // Should handle 404
@@ -118,11 +130,11 @@ function get(id, name, history) {
   }
 }
 
-function getAllByUserId(id, favorites) {
+function getAllByUserId(id) {
   return dispatch => {
     dispatch(request);
     recipeServices
-      .findByUserId(id, favorites)
+      .findByUserId(id)
       .then(recipes => {
         dispatch(success(recipes));
       })
@@ -163,6 +175,34 @@ function getFavorites(id) {
   }
   function failure(error) {
     return { type: userRecipesConstants.GET_RECIPES_FAILURE, error };
+  }
+}
+
+function setFavorite(user_id, recipe_id, value) {
+  return dispatch => {
+    dispatch(request);
+    recipeServices
+      .setFavorite(user_id, recipe_id, value)
+      .then(response => {
+        dispatch(success(recipe_id, value));
+      })
+      .catch(error => {
+        dispatch(failure(error));
+      });
+  };
+
+  function request() {
+    return { type: userRecipesConstants.SET_FAVORITE_REQUEST };
+  }
+  function success(recipe_id, value) {
+    return {
+      type: userRecipesConstants.SET_FAVORITE_SUCCESS,
+      recipe_id,
+      value
+    };
+  }
+  function failure(error) {
+    return { type: userRecipesConstants.SET_FAVORITE_FAILURE, error };
   }
 }
 

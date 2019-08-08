@@ -5,7 +5,9 @@ export const recipeServices = {
   scrape,
   findById,
   findByUserId,
-  findFavorites
+  findFavorites,
+  setFavorite,
+  isFavorite
 };
 
 function add(recipe, user_id) {
@@ -78,6 +80,32 @@ function findFavorites(id) {
       });
     }
   });
+}
+
+function setFavorite(user_id, recipe_id, value) {
+  const requestOptions = requestHandler("POST", { user_id, recipe_id, value });
+  return fetch(`${config.apiUrl}/recipes/set_favorite/`, requestOptions)
+    .then(handleResponse)
+    .then(response => {
+      let res = JSON.parse(response);
+      if (res.affectedRows !== 1) {
+        return Promise.reject("Query Failed");
+      } else {
+        return res;
+      }
+    });
+}
+
+function isFavorite(user_id, recipe_id) {
+  const requestOptions = requestHandler("GET");
+  return fetch(
+    `${config.apiUrl}/recipes/is_favorite/${user_id}/${recipe_id}`,
+    requestOptions
+  )
+    .then(handleResponse)
+    .then(response => {
+      return JSON.parse(response);
+    });
 }
 
 function requestHandler(type, body) {

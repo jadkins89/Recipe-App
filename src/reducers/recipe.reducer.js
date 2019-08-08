@@ -4,6 +4,7 @@ const initialState = {
   name: "",
   ingredients: [""],
   instructions: [""],
+  favorite: "",
   time: {
     prep: "",
     cook: "",
