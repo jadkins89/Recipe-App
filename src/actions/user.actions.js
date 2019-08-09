@@ -43,7 +43,7 @@ function login(email, password, history) {
 
 function register(user, history) {
   return dispatch => {
-    dispatch(request(user));
+    dispatch(request());
     userServices.register(user).then(
       user => {
         dispatch(success(user));
@@ -68,8 +68,8 @@ function register(user, history) {
     );
   };
 
-  function request(user) {
-    return { type: userConstants.REGISTER_REQUEST, user };
+  function request() {
+    return { type: userConstants.REGISTER_REQUEST };
   }
   function success(user) {
     return { type: userConstants.REGISTER_SUCCESS, user };

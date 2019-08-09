@@ -4,6 +4,23 @@ const initialState = {};
 
 export default function authentication(state = initialState, action) {
   switch (action.type) {
+    case userConstants.REGISTER_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        isAuthenticated: false
+      });
+    case userConstants.REGISTER_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        isAuthenticated: false,
+        user: action.user
+      });
+    case userConstants.REGISTER_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        isAuthenticated: false,
+        error: action.error
+      })
     case userConstants.LOGIN_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
