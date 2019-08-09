@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-
-import AlertMessage from "./AlertMessage";
-import { alertActions } from "../actions";
+import { AlertMessage } from "components";
+import { alertActions } from "actions";
 
 class AlertMessagesList extends Component {
   render() {

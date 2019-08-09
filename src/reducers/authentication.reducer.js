@@ -1,4 +1,4 @@
-import { userConstants } from "../constants";
+import { userConstants } from "actionConstants";
 
 const initialState = {};
 

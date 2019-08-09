@@ -11,9 +11,9 @@ import {
   MDBBtn
 } from "mdbreact";
 
-import { userActions, alertActions } from "../actions";
-import { validationServices } from "../services";
-import AlertMessagesList from "./AlertMessagesList";
+import { userActions, alertActions } from "actions";
+import { validationServices } from "services";
+import { AlertMessagesList } from "components";
 
 class Register extends Component {
   constructor(props) {

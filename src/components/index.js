@@ -8,3 +8,5 @@ export { default as Profile } from "./Profile";
 export { default as SideNav } from "./SideNav";
 export { default as Recipe } from "./Recipe";
 export { default as Loading } from "./Loading";
+export { default as AlertMessage } from "./AlertMessage";
+export { default as AlertMessagesList } from "./AlertMessagesList";

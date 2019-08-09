@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { recipeActions } from "../../actions";
+import { recipeActions } from "actions";
 import RecipeComponent from "./Recipe.component";
-import { Loading } from "../";
+import { Loading } from "components";
 
 class Recipe extends Component {
   componentDidMount() {

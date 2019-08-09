@@ -1,4 +1,4 @@
-import { userRecipesConstants } from "../constants";
+import { userRecipesConstants } from "actionConstants";
 
 const initialState = {};
 

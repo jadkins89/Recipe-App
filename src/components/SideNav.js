@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { MDBCol, MDBListGroup, MDBListGroupItem } from "mdbreact";
-import { recipeActions } from "../actions";
+import { recipeActions } from "actions";
 
 const StyledListItem = styled(MDBListGroupItem)`
   border: none;

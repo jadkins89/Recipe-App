@@ -1,5 +1,5 @@
 import shortid from "shortid";
-import { alertConstants } from "../constants";
+import { alertConstants } from "actionConstants";
 
 export default function alerts(state = [], action = {}) {
   switch (action.type) {

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { recipeActions } from "../../actions";
+import { recipeActions } from "actions";
 
 const TimeInput = props => {
   const { recipe, handleChange } = props;

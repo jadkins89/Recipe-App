@@ -1,6 +1,6 @@
-import { recipeConstants, userRecipesConstants } from "../constants";
-import { recipeServices } from "../services";
-import { alertActions } from "../actions";
+import { recipeConstants, userRecipesConstants } from "actionConstants";
+import { recipeServices } from "services";
+import { alertActions } from "actions";
 
 export const recipeActions = {
   add,

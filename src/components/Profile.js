@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { MDBContainer } from "mdbreact";
-import AlertMessagesList from "./AlertMessagesList";
-import { recipeActions } from "../actions";
-import { Loading } from "./";
+import { recipeActions } from "actions";
+import { AlertMessagesList, Loading } from "components";
 
 class Profile extends Component {
   componentDidMount() {

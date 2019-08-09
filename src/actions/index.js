@@ -1,3 +1,3 @@
-export { alertActions } from "./alert.actions";
-export { userActions } from "./user.actions";
-export { recipeActions } from "./recipe.actions";
+export { alertActions } from "actions/alert.actions";
+export { userActions } from "actions/user.actions";
+export { recipeActions } from "actions/recipe.actions";

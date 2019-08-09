@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { MDBContainer, MDBRow, MDBCol, MDBNavLink } from "mdbreact";
-import AlertMessagesList from "./AlertMessagesList";
-import { recipeActions } from "../actions";
-import { SideNav } from "./";
+import { recipeActions } from "actions";
+import { AlertMessagesList, SideNav } from "components";
 
 class Home extends Component {
   componentDidMount() {

@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { MDBIcon } from "mdbreact";
 import { Draggable } from "react-beautiful-dnd";
-import { recipeActions } from "../../actions";
+import { recipeActions } from "actions";
 
 const ItemInput = props => {
   const handleHeight = event => {

@@ -11,7 +11,7 @@ import {
   MDBNavItem,
   MDBNavLink
 } from "mdbreact";
-import { userActions } from "../actions";
+import { userActions } from "actions";
 
 const TopNav = props => {
   const path = {

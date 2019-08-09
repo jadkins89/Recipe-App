@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 
-import "./App.css";
+import "App.css";
 import {
   ProtectedRoute,
   Login,
@@ -12,8 +12,8 @@ import {
   AddRecipe,
   Profile,
   Recipe
-} from "./components/";
-import { alertActions } from "./actions";
+} from "components";
+import { alertActions } from "actions";
 
 class App extends Component {
   constructor(props) {
@@ -37,7 +37,10 @@ class App extends Component {
           <ProtectedRoute exact path="/" component={Home} />
           <ProtectedRoute exact path="/profile" component={Profile} />
           <ProtectedRoute exact path="/addrecipe" component={AddRecipe} />
-          <Route path="/recipes/:recipe_id/:recipe_name?" component={Recipe} />
+          <ProtectedRoute
+            path="/recipes/:recipe_id/:recipe_name?"
+            component={Recipe}
+          />
         </Switch>
       </div>
     );

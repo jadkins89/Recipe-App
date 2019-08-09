@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import ItemInput from "./ItemInput";
-import { recipeActions } from "../../actions";
+import { recipeActions } from "actions";
 
 const ItemInputList = props => {
   const onDragEnd = result => {
