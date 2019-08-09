@@ -34,6 +34,10 @@ export default function recipe(state = initialState, action = {}) {
         isAdded: false,
         error: action.error
       });
+    case recipeConstants.CLEAR_RECIPE:
+      return Object.assign({}, state, {
+        ...initialState
+      });
     case recipeConstants.FIND_RECIPE_REQUEST:
       return Object.assign({}, state, {
         isFetching: true

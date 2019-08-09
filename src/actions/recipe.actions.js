@@ -4,6 +4,7 @@ import { alertActions } from "actions";
 
 export const recipeActions = {
   add,
+  clear,
   find,
   get,
   getAllByUserId,
@@ -44,6 +45,15 @@ function add(history) {
   }
   function failure(error) {
     return { type: recipeConstants.ADD_RECIPE_FAILURE, error };
+  }
+}
+
+function clear() {
+  return dispatch => {
+    dispatch(handleRequest());
+  };
+  function handleRequest() {
+    return { type: recipeConstants.CLEAR_RECIPE };
   }
 }
 
