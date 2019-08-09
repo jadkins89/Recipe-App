@@ -27,6 +27,13 @@ class Login extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  componentDidMount() {
+    const { user } = this.props;
+    if (user) {
+      this.setState({ email: user.email });
+    }
+  }
+
   handleSubmit = event => {
     event.preventDefault();
 
@@ -103,9 +110,10 @@ class Login extends Component {
 }
 
 function mapStateToProps(state) {
-  const { isAuthenticated } = state.authentication;
+  const { isAuthenticated, user } = state.authentication;
   return {
-    isAuthenticated
+    isAuthenticated,
+    user
   };
 }
 

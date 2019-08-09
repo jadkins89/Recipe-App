@@ -20,7 +20,7 @@ export default function authentication(state = initialState, action) {
         isFetching: false,
         isAuthenticated: false,
         error: action.error
-      })
+      });
     case userConstants.LOGIN_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,

@@ -36,9 +36,11 @@ function register(user) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ firstName, lastName, email, password })
   };
-  return fetch(`${config.apiUrl}/users/register`, requestOptions).then(
-    handleResponse
-  );
+  return fetch(`${config.apiUrl}/users/register`, requestOptions)
+    .then(handleResponse)
+    .then(response => {
+      return JSON.parse(response);
+    });
 }
 
 function authenticate() {
