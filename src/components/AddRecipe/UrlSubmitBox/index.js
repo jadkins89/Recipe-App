@@ -21,7 +21,8 @@ class UrlSubmitBox extends Component {
   };
 
   handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({
+      [event.target.name]: event.target.value });
   };
 
   render() {
@@ -33,7 +34,7 @@ class UrlSubmitBox extends Component {
           handleSubmit={handleSubmit}
           handleChange={handleChange}
           url={url}
-        />
+        /> 
       </>
     );
   }

@@ -6,7 +6,7 @@ import "App.css";
 import {
   ProtectedRoute,
   Login,
-  Home,
+  LandingPage,
   Register,
   TopNav,
   AddRecipe,
@@ -34,7 +34,7 @@ class App extends Component {
           <Route component={TopNav} />
         </Switch>
         <Switch>
-          <ProtectedRoute exact path="/" component={Home} />
+          <ProtectedRoute exact path="/" component={LandingPage} />
           <ProtectedRoute exact path="/profile" component={Profile} />
           <ProtectedRoute exact path="/addrecipe" component={AddRecipe} />
           <ProtectedRoute

@@ -95,38 +95,34 @@ function find(url) {
 }
 
 function get(id, name, history) {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     dispatch(request());
-    recipeServices
-      .findById(id)
-      .then(recipe => {
-        let state = getState();
-        const { user } = state.authentication;
-        recipeServices
-          .isFavorite(user.id, id)
-          .then(favorite => {
-            recipe.favorite = favorite;
-            let url_name = recipe.name
-              .replace(/[.,/#!$%^&*;:{}=\-_'`~()\s]/g, "")
-              .toLowerCase();
-            if (!name) {
-              history.replace(`/recipes/${id}/${url_name}`);
-            } else if (name !== url_name) {
-              history.replace(`/recipes/${id}/${url_name}`);
-              // Should handle 404
-            }
-            dispatch(success(recipe));
-          })
-          .catch(error => {
-            history.push("/");
-            dispatch(failure(error));
-          });
-      })
-      .catch(error => {
-        // Should handle 404
+    try {
+      let recipe = await recipeServices.findById(id);
+      let state = getState();
+      const { user } = state.authentication;
+      try {
+        let favorite = await recipeServices.isFavorite(user.id, id);
+        recipe.favorite = favorite;
+        let url_name = recipe.name
+          .replace(/[.,/#!$%^&*;:{}=\-_'`~()\s]/g, "")
+          .toLowerCase();
+        if (!name) {
+          history.replace(`/recipes/${id}/${url_name}`);
+        } else if (name !== url_name) {
+          history.replace(`/recipes/${id}/${url_name}`);
+          // Should handle 404
+        }
+        dispatch(success(recipe));
+      } catch (error) {
         history.push("/");
         dispatch(failure(error));
-      });
+      }
+    } catch (error) {
+      // Should handle 404
+      history.push("/");
+      dispatch(failure(error));
+    }
   };
 
   function request() {

@@ -21,7 +21,6 @@ const StyledStar = styled.span`
 
 const RecipeComponent = props => {
   const { recipe } = props;
-
   const times = Object.keys(recipe.time).map((key, index) => {
     return (
       <div className="m-0 p-0" key={key}>
@@ -92,11 +91,9 @@ const RecipeComponent = props => {
                 {times}
               </div>
               <p className="h5 my-2">Ingredients</p>
-              <hr />
-              {ingredients}
+              <hr /> {ingredients}
               <p className="h5 mt-3 mb-2">Instructions</p>
-              <hr />
-              {instructions}
+              <hr /> {instructions}
             </MDBCardBody>
           </MDBCard>
         </MDBCol>

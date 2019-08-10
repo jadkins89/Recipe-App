@@ -1,18 +1,16 @@
-import React, { useLayoutEffect } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 import AddRecipeComponent from "./AddRecipe.component";
 import { recipeActions } from "actions";
 
 const AddRecipe = props => {
-  useLayoutEffect(() => {
-    const { recipe, clearRecipe } = props;
-    if (recipe.name) {
-      clearRecipe();
-    }
-  });
+  const { handleChange, handleSubmit, addListItem, clearRecipe } = props;
 
-  const { handleChange, handleSubmit, addListItem } = props;
+  useEffect(() => {
+    clearRecipe();
+  }, [clearRecipe]);
+
   const { name } = props.recipe;
   return (
     <AddRecipeComponent
@@ -26,9 +24,7 @@ const AddRecipe = props => {
 
 function mapStateToProps(state) {
   const { recipe } = state;
-  return {
-    recipe
-  };
+  return { recipe };
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
