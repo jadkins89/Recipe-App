@@ -10,9 +10,24 @@ const Recipe = props => {
   let name = props.match.params.recipe_name;
 
   useEffect(() => {
-    if (history.action !== "REPLACE") {
-      getRecipe(recipe_id, name, history);
-    }
+    (async () => {
+      if (history.action !== "REPLACE") {
+        try {
+          let response = await getRecipe(recipe_id);
+          let url_name = response.recipe.name
+            .replace(/[.,/#!$%^&*;:{}=\-_'`~()\s]/g, "")
+            .toLowerCase();
+          if (!name) {
+            history.replace(`/recipes/${recipe_id}/${url_name}`);
+          } else if (name !== url_name) {
+            history.replace(`/recipes/${recipe_id}/${url_name}`);
+            // Should handle 404
+          }
+        } catch {
+          history.push("/");
+        }
+      }
+    })();
   }, [name, history, getRecipe, recipe_id]);
 
   // Loading screen for user / recipe loading and url modification
@@ -41,7 +56,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  getRecipe: (id, name, history) => recipeActions.get(id, name, history),
+  getRecipe: id => recipeActions.get(id),
   setFavorite: (user_id, recipe_id, value) =>
     recipeActions.setFavorite(user_id, recipe_id, value)
 };

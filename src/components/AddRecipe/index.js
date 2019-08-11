@@ -5,36 +5,17 @@ import AddRecipeComponent from "./AddRecipe.component";
 import { recipeActions } from "actions";
 
 const AddRecipe = props => {
-  const { handleChange, handleSubmit, addListItem, clearRecipe } = props;
+  const { handleSubmit, clearRecipe } = props;
 
   useEffect(() => {
     clearRecipe();
   }, [clearRecipe]);
 
-  const { name } = props.recipe;
-  return (
-    <AddRecipeComponent
-      handleChange={handleChange}
-      handleSubmit={handleSubmit}
-      addListItem={addListItem}
-      name={name}
-    />
-  );
+  return <AddRecipeComponent handleSubmit={handleSubmit} />;
 };
-
-function mapStateToProps(state) {
-  const { recipe } = state;
-  return { recipe };
-}
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    handleChange: event =>
-      dispatch(
-        recipeActions.handleChange(event.target.name, event.target.value)
-      ),
-    addListItem: event =>
-      dispatch(recipeActions.addListItem(event.target.name)),
     handleSubmit: event => {
       event.preventDefault();
       dispatch(recipeActions.add(ownProps.history));
@@ -46,6 +27,6 @@ function mapDispatchToProps(dispatch, ownProps) {
 }
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(AddRecipe);

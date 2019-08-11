@@ -94,7 +94,7 @@ function find(url) {
   }
 }
 
-function get(id, name, history) {
+function get(id) {
   return async (dispatch, getState) => {
     dispatch(request());
     try {
@@ -104,23 +104,11 @@ function get(id, name, history) {
       try {
         let favorite = await recipeServices.isFavorite(user.id, id);
         recipe.favorite = favorite;
-        let url_name = recipe.name
-          .replace(/[.,/#!$%^&*;:{}=\-_'`~()\s]/g, "")
-          .toLowerCase();
-        if (!name) {
-          history.replace(`/recipes/${id}/${url_name}`);
-        } else if (name !== url_name) {
-          history.replace(`/recipes/${id}/${url_name}`);
-          // Should handle 404
-        }
-        dispatch(success(recipe));
+        return dispatch(success(recipe));
       } catch (error) {
-        history.push("/");
         dispatch(failure(error));
       }
     } catch (error) {
-      // Should handle 404
-      history.push("/");
       dispatch(failure(error));
     }
   };

@@ -2,7 +2,7 @@ import { userRecipesConstants } from "actionConstants";
 
 const initialState = {};
 
-export default function recipe(state = initialState, action = {}) {
+export default function userRecipes(state = initialState, action = {}) {
   switch (action.type) {
     case userRecipesConstants.GET_RECIPES_REQUEST:
       return Object.assign({}, state, {

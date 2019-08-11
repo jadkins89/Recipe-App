@@ -55,7 +55,7 @@ class SideNav extends Component {
 
 function mapStateToProps(state) {
   const { user } = state.authentication;
-  const { recipes } = state.user_recipes;
+  const { recipes } = state.userRecipes;
   return {
     user,
     recipes
