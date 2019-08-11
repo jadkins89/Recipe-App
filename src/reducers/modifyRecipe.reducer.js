@@ -17,15 +17,6 @@ export default function modifyRecipe(state = initialState, action = {}) {
       return Object.assign({}, state, {
         editModal: !state.editModal
       });
-    case modifyRecipeConstants.EDIT_RECIPE_SUCCESS:
-      return Object.assign({}, state, {
-        ...initialState
-      });
-    case modifyRecipeConstants.EDIT_RECIPE_FAILURE:
-      return Object.assign({}, state, {
-        isModal: false,
-        error: action.error
-      });
     default:
       return state;
   }

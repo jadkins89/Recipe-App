@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { connect } from "react-redux";
 
 import AddRecipeComponent from "./AddRecipe.component";
@@ -7,7 +7,7 @@ import { recipeActions } from "actions";
 const AddRecipe = props => {
   const { handleSubmit, clearRecipe } = props;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     clearRecipe();
   }, [clearRecipe]);
 
