@@ -10,7 +10,7 @@ import {
 } from "mdbreact";
 
 import UrlSubmitBox from "./UrlSubmitBox";
-import RecipeInput from "./RecipeInput";
+import { RecipeInput } from "components";
 
 const AddRecipeComponent = props => {
   const { handleSubmit } = props;

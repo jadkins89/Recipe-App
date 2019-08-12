@@ -16,15 +16,23 @@ const StyledDropdownMenu = styled(MDBDropdownMenu)`
 `;
 
 const DisplayRecipe = props => {
-  const { name, id, editRecipe } = props;
-  const clickHandlers = {};
+  const { name, id, editRecipe, deleteRecipe } = props;
+  const editClickHandlers = {};
+  const deleteClickHandlers = {};
   const key = "recipe_" + id;
 
-  const getClickHandler = key => {
-    if (!Object.prototype.hasOwnProperty.call(clickHandlers, key)) {
-      clickHandlers[key] = () => editRecipe(id);
+  const getEditClickHandler = key => {
+    if (!Object.prototype.hasOwnProperty.call(editClickHandlers, key)) {
+      editClickHandlers[key] = () => editRecipe(id);
     }
-    return clickHandlers[key];
+    return editClickHandlers[key];
+  };
+
+  const getDeleteClickHandler = key => {
+    if (!Object.prototype.hasOwnProperty.call(deleteClickHandlers, key)) {
+      deleteClickHandlers[key] = () => deleteRecipe(id);
+    }
+    return deleteClickHandlers[key];
   };
 
   return (
@@ -40,8 +48,12 @@ const DisplayRecipe = props => {
           <i className="fas fa-ellipsis-v fa-sm"></i>
         </MDBDropdownToggle>
         <StyledDropdownMenu>
-          <MDBDropdownItem onClick={getClickHandler(key)}>edit</MDBDropdownItem>
-          <MDBDropdownItem tag="li">delete</MDBDropdownItem>
+          <MDBDropdownItem onClick={getEditClickHandler(key)}>
+            edit
+          </MDBDropdownItem>
+          <MDBDropdownItem onClick={getDeleteClickHandler(key)}>
+            delete
+          </MDBDropdownItem>
         </StyledDropdownMenu>
       </MDBDropdown>
     </MDBContainer>

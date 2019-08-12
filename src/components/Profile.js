@@ -44,8 +44,6 @@ const Profile = props => {
   }
 };
 
-Profile.whyDidYouRender = true;
-
 function mapStateToProps(state) {
   const { user } = state.authentication;
   const { recipes } = state.userRecipes;

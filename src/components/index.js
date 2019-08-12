@@ -10,4 +10,4 @@ export { default as Recipe } from "./Recipe";
 export { default as Loading } from "./Loading";
 export { default as AlertMessage } from "./AlertMessage";
 export { default as AlertMessagesList } from "./AlertMessagesList";
-export { default as RecipeInput } from "./AddRecipe/RecipeInput";
+export { default as RecipeInput } from "./RecipeInput";

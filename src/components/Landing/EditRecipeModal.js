@@ -11,14 +11,37 @@ import { recipeActions } from "actions";
 import { modifyRecipeConstants } from "actionConstants";
 import { RecipeInput } from "components";
 
-const EditRecipe = props => {
-  const { editModal, toggle, recipeId, getRecipe, recipe } = props;
+const EditRecipeModal = props => {
+  const {
+    fetchRecipes,
+    editModal,
+    toggle,
+    recipeId,
+    getRecipe,
+    updateRecipe,
+    id,
+    modifiedLocally
+  } = props;
 
   useEffect(() => {
-    getRecipe(recipeId);
+    if (recipeId) {
+      getRecipe(recipeId);
+    }
   }, [getRecipe, recipeId]);
 
-  if (recipe) {
+  const onClick = () => {
+    // Only call if modified in modal
+    if (modifiedLocally) {
+      updateRecipe(recipeId).then(res => {
+        fetchRecipes(id);
+        toggle();
+      });
+    } else {
+      toggle();
+    }
+  };
+
+  if (editModal) {
     return (
       <MDBModal size="lg" isOpen={editModal} toggle={toggle}>
         <MDBModalHeader toggle={toggle}>Edit Recipe</MDBModalHeader>
@@ -29,7 +52,9 @@ const EditRecipe = props => {
           <MDBBtn color="secondary" onClick={toggle}>
             Close
           </MDBBtn>
-          <MDBBtn color="primary">Save changes</MDBBtn>
+          <MDBBtn color="primary" onClick={onClick}>
+            Save changes
+          </MDBBtn>
         </MDBModalFooter>
       </MDBModal>
     );
@@ -39,21 +64,25 @@ const EditRecipe = props => {
 };
 
 const mapStateToProps = state => {
+  const { id } = state.authentication.user;
   const { editModal, recipeId } = state.modifyRecipe;
-  const { recipe } = state;
+  const { modifiedLocally } = state.recipe;
   return {
+    id,
     editModal,
     recipeId,
-    recipe
+    modifiedLocally
   };
 };
 
 const mapDispatchToProps = {
+  fetchRecipes: user_id => recipeActions.getAllByUserId(user_id),
   getRecipe: id => recipeActions.get(id),
-  toggle: () => ({ type: modifyRecipeConstants.EDIT_RECIPE_TOGGLE })
+  toggle: () => ({ type: modifyRecipeConstants.EDIT_RECIPE_TOGGLE }),
+  updateRecipe: id => recipeActions.update(id)
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(EditRecipe);
+)(EditRecipeModal);

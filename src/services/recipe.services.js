@@ -2,6 +2,7 @@ import config from "config";
 
 export const recipeServices = {
   add,
+  update,
   scrape,
   findById,
   findByUserId,
@@ -16,6 +17,21 @@ function add(recipe, user_id) {
     user_id: user_id
   });
   return fetch(`${config.apiUrl}/recipes/add`, requestOptions)
+    .then(response => {
+      return JSON.parse(response);
+    })
+    .catch(error => {
+      return error;
+    });
+}
+
+function update(recipe, recipe_id, user_id) {
+  const requestOptions = requestHandler("POST", {
+    recipe: recipe,
+    recipe_id: recipe_id,
+    user_id: user_id
+  });
+  return fetch(`${config.apiUrl}/recipes/create_or_update`, requestOptions)
     .then(response => {
       return JSON.parse(response);
     })

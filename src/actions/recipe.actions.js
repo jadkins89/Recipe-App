@@ -4,6 +4,7 @@ import { alertActions } from "actions";
 
 export const recipeActions = {
   add,
+  update,
   clear,
   find,
   get,
@@ -25,7 +26,7 @@ function add(history) {
       response => {
         let message = {
           type: "success",
-          text: "Recipe Successfully added"
+          text: "Recipe successfully added"
         };
         dispatch(success());
         history.push("/");
@@ -45,6 +46,37 @@ function add(history) {
   }
   function failure(error) {
     return { type: recipeConstants.ADD_RECIPE_FAILURE, error };
+  }
+}
+
+function update(recipe_id) {
+  return (dispatch, getState) => {
+    dispatch(request());
+    let state = getState();
+    const { recipe, authentication } = state;
+    return recipeServices
+      .update(recipe, recipe_id, authentication.user.id)
+      .then(response => {
+        let message = {
+          type: "success",
+          text: "Recipe successfully edited"
+        };
+        dispatch(success());
+        dispatch(alertActions.addAlert(message));
+      })
+      .catch(error => {
+        dispatch(failure(error));
+        console.log(error);
+      });
+  };
+  function request() {
+    return { type: recipeConstants.EDIT_RECIPE_REQUEST };
+  }
+  function success() {
+    return { type: recipeConstants.EDIT_RECIPE_SUCCESS };
+  }
+  function failure(error) {
+    return { type: recipeConstants.EDIT_RECIPE_FAILURE, error };
   }
 }
 
@@ -202,6 +234,7 @@ function setFavorite(user_id, recipe_id, value) {
 
 function handleChange(name, value) {
   return dispatch => {
+    dispatch(changed());
     if (name === "name") {
       dispatch(changeValue(name, value));
     } else if (!name.includes("ingredient") && !name.includes("instruction")) {
@@ -212,6 +245,9 @@ function handleChange(name, value) {
     }
   };
 
+  function changed() {
+    return { type: recipeConstants.MODIFY_RECIPE_REQUEST };
+  }
   function changeValue(name, value) {
     return { type: recipeConstants.MODIFY_RECIPE_NAME, name, value };
   }

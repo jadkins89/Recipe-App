@@ -5,10 +5,8 @@ import { modifyRecipeConstants } from "actionConstants";
 import { Loading } from "components";
 import DisplayRecipe from "./DisplayRecipe";
 
-// Make indidivual recipe component
-
 const DisplayRecipesList = props => {
-  const { fetchRecipes, recipes, user, editRecipe } = props;
+  const { fetchRecipes, recipes, user, editRecipe, deleteRecipe } = props;
 
   useEffect(() => {
     fetchRecipes(user.id);
@@ -23,6 +21,7 @@ const DisplayRecipesList = props => {
               name={recipe.name}
               id={recipe.id}
               editRecipe={editRecipe}
+              deleteRecipe={deleteRecipe}
               key={"recipe_" + user.id + "-" + index}
             />
           );
@@ -43,13 +42,14 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
-  return {
-    fetchRecipes: id => dispatch(recipeActions.getAllByUserId(id)),
-    editRecipe: id =>
-      dispatch({ type: modifyRecipeConstants.EDIT_RECIPE_REQUEST, id })
-  };
-}
+const mapDispatchToProps = {
+  fetchRecipes: id => recipeActions.getAllByUserId(id),
+  editRecipe: id => ({ type: modifyRecipeConstants.EDIT_RECIPE_REQUEST, id }),
+  deleteRecipe: id => ({
+    type: modifyRecipeConstants.DELETE_RECIPE_REQUEST,
+    id
+  })
+};
 
 export default connect(
   mapStateToProps,

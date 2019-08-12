@@ -2,7 +2,8 @@ import React from "react";
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import { AlertMessagesList, SideNav } from "components";
 import DisplayRecipesList from "./DisplayRecipesList";
-import EditRecipe from "./EditRecipe";
+import EditRecipeModal from "./EditRecipeModal";
+import DeleteRecipeModal from "./DeleteRecipeModal";
 
 const Landing = props => {
   return (
@@ -14,11 +15,10 @@ const Landing = props => {
           <DisplayRecipesList />
         </MDBCol>
       </MDBRow>
-      <EditRecipe />
+      <EditRecipeModal />
+      <DeleteRecipeModal />
     </MDBContainer>
   );
 };
-
-Landing.whyDidYouRender = true;
 
 export default Landing;

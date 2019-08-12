@@ -12,7 +12,10 @@ const initialState = {
     inactive: "",
     total: "",
     ready: ""
-  }
+  },
+  url: null,
+  modified: false,
+  modifiedLocally: false
 };
 
 export default function recipe(state = initialState, action = {}) {
@@ -34,6 +37,23 @@ export default function recipe(state = initialState, action = {}) {
         isAdded: false,
         error: action.error
       });
+    case recipeConstants.EDIT_RECIPE_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        isEdited: false
+      });
+    case recipeConstants.EDIT_RECIPE_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        isEdited: true,
+        ...initialState
+      });
+    case recipeConstants.EDIT_RECIPE_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        isEdited: false,
+        error: action.error
+      });
     case recipeConstants.CLEAR_RECIPE:
       return Object.assign({}, state, {
         ...initialState
@@ -51,6 +71,10 @@ export default function recipe(state = initialState, action = {}) {
       return Object.assign({}, state, {
         isFetching: false,
         error: action.error
+      });
+    case recipeConstants.MODIFY_RECIPE_REQUEST:
+      return Object.assign({}, state, {
+        modifiedLocally: true
       });
     case recipeConstants.MODIFY_RECIPE_NAME:
       return Object.assign({}, state, {

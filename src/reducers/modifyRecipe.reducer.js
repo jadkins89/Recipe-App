@@ -17,6 +17,15 @@ export default function modifyRecipe(state = initialState, action = {}) {
       return Object.assign({}, state, {
         editModal: !state.editModal
       });
+    case modifyRecipeConstants.DELETE_RECIPE_REQUEST:
+      return Object.assign({}, state, {
+        deleteModal: true,
+        recipeId: action.id
+      });
+    case modifyRecipeConstants.DELETE_RECIPE_TOGGLE:
+      return Object.assign({}, state, {
+        deleteModal: !state.deleteModal
+      });
     default:
       return state;
   }
