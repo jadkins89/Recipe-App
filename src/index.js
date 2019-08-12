@@ -1,4 +1,5 @@
 import React from "react";
+
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route } from "react-router-dom";
@@ -12,6 +13,11 @@ import { store } from "helpers";
 import { userActions } from "actions";
 import App from "App";
 import * as serviceWorker from "serviceWorker";
+
+if (process.env.NODE_ENV !== "production") {
+  const whyDidYouRender = require("@welldone-software/why-did-you-render/dist/no-classes-transpile/umd/whyDidYouRender.min.js");
+  whyDidYouRender(React);
+}
 
 store.dispatch(userActions.authenticate());
 

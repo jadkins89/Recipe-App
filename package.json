@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@welldone-software/why-did-you-render": "^3.3.2",
     "mdbreact": "^4.16.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
