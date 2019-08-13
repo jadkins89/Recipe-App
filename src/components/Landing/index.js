@@ -10,7 +10,7 @@ const Landing = props => {
     <MDBContainer className="d-flex">
       <MDBRow className="mt-3">
         <SideNav />
-        <MDBCol>
+        <MDBCol className="flex-wrap">
           <AlertMessagesList />
           <DisplayRecipesList />
         </MDBCol>

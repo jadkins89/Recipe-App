@@ -15,17 +15,19 @@ const DisplayRecipesList = props => {
     <>
       <h5>Recipes</h5>
       {recipes ? (
-        recipes.map((recipe, index) => {
-          return (
-            <DisplayRecipe
-              name={recipe.name}
-              id={recipe.id}
-              editRecipe={editRecipe}
-              deleteRecipe={deleteRecipe}
-              key={"recipe_" + user.id + "-" + index}
-            />
-          );
-        })
+        recipes
+          .map((recipe, index) => {
+            return (
+              <DisplayRecipe
+                name={recipe.name}
+                id={recipe.id}
+                editRecipe={editRecipe}
+                deleteRecipe={deleteRecipe}
+                key={"recipe_" + user.id + "-" + index}
+              />
+            );
+          })
+          .sort((a, b) => (a.props.name < b.props.name ? -1 : 1))
       ) : (
         <Loading />
       )}
