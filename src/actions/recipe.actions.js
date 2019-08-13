@@ -4,7 +4,8 @@ import { alertActions } from "actions";
 
 export const recipeActions = {
   add,
-  update,
+  createOrUpdate,
+  deleteUsersRecipes,
   clear,
   find,
   get,
@@ -49,13 +50,13 @@ function add(history) {
   }
 }
 
-function update(recipe_id) {
+function createOrUpdate(recipeId) {
   return (dispatch, getState) => {
     dispatch(request());
     let state = getState();
     const { recipe, authentication } = state;
     return recipeServices
-      .update(recipe, recipe_id, authentication.user.id)
+      .update(recipe, recipeId, authentication.user.id)
       .then(response => {
         let message = {
           type: "success",
@@ -77,6 +78,35 @@ function update(recipe_id) {
   }
   function failure(error) {
     return { type: recipeConstants.EDIT_RECIPE_FAILURE, error };
+  }
+}
+
+function deleteUsersRecipes(recipeId, userId) {
+  return dispatch => {
+    dispatch(request());
+    return recipeServices
+      .deleteUsersRecipes(recipeId, userId)
+      .then(response => {
+        let message = {
+          type: "success",
+          text: "Recipe successfully deleted"
+        };
+        dispatch(success());
+        dispatch(alertActions.addAlert(message));
+      })
+      .catch(error => {
+        dispatch(failure(error));
+        console.log(error);
+      });
+  };
+  function request() {
+    return { type: recipeConstants.DELETE_RECIPE_REQUEST };
+  }
+  function success() {
+    return { type: recipeConstants.DELETE_RECIPE_SUCCESS };
+  }
+  function failure(error) {
+    return { type: recipeConstants.DELETE_RECIPE_FAILURE, error };
   }
 }
 
@@ -126,20 +156,16 @@ function find(url) {
   }
 }
 
-function get(id) {
+function get(recipeId) {
   return async (dispatch, getState) => {
     dispatch(request());
     try {
-      let recipe = await recipeServices.findById(id);
+      let recipe = await recipeServices.findById(recipeId);
       let state = getState();
       const { user } = state.authentication;
-      try {
-        let favorite = await recipeServices.isFavorite(user.id, id);
-        recipe.favorite = favorite;
-        return dispatch(success(recipe));
-      } catch (error) {
-        dispatch(failure(error));
-      }
+      let favorite = await recipeServices.isFavorite(user.id, recipeId);
+      recipe.favorite = favorite;
+      return dispatch(success(recipe));
     } catch (error) {
       dispatch(failure(error));
     }
@@ -180,11 +206,11 @@ function getAllByUserId(id) {
   }
 }
 
-function getFavorites(id) {
+function getFavorites(userId) {
   return dispatch => {
     dispatch(request);
     recipeServices
-      .findFavorites(id)
+      .findFavorites(userId)
       .then(recipes => {
         dispatch(success(recipes));
       })
@@ -204,13 +230,13 @@ function getFavorites(id) {
   }
 }
 
-function setFavorite(user_id, recipe_id, value) {
+function setFavorite(userId, recipeId, value) {
   return dispatch => {
     dispatch(request);
     recipeServices
-      .setFavorite(user_id, recipe_id, value)
+      .setFavorite(userId, recipeId, value)
       .then(response => {
-        dispatch(success(recipe_id, value));
+        dispatch(success(recipeId, value));
       })
       .catch(error => {
         dispatch(failure(error));
@@ -220,10 +246,10 @@ function setFavorite(user_id, recipe_id, value) {
   function request() {
     return { type: userRecipesConstants.SET_FAVORITE_REQUEST };
   }
-  function success(recipe_id, value) {
+  function success(recipeId, value) {
     return {
       type: userRecipesConstants.SET_FAVORITE_SUCCESS,
-      recipe_id,
+      recipeId,
       value
     };
   }

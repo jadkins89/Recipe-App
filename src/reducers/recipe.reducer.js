@@ -54,6 +54,23 @@ export default function recipe(state = initialState, action = {}) {
         isEdited: false,
         error: action.error
       });
+    case recipeConstants.DELETE_RECIPE_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        isDeleted: false
+      });
+    case recipeConstants.DELETE_RECIPE_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        isDeleted: true,
+        ...initialState
+      });
+    case recipeConstants.DELETE_RECIPE_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        isDeleted: false,
+        error: action.error
+      });
     case recipeConstants.CLEAR_RECIPE:
       return Object.assign({}, state, {
         ...initialState

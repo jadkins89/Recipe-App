@@ -3,6 +3,7 @@ import config from "config";
 export const recipeServices = {
   add,
   update,
+  deleteUsersRecipes,
   scrape,
   findById,
   findByUserId,
@@ -11,10 +12,10 @@ export const recipeServices = {
   isFavorite
 };
 
-function add(recipe, user_id) {
+function add(recipe, userId) {
   const requestOptions = requestHandler("POST", {
     recipe: recipe,
-    user_id: user_id
+    user_id: userId
   });
   return fetch(`${config.apiUrl}/recipes/add`, requestOptions)
     .then(response => {
@@ -25,11 +26,11 @@ function add(recipe, user_id) {
     });
 }
 
-function update(recipe, recipe_id, user_id) {
+function update(recipe, recipeId, userId) {
   const requestOptions = requestHandler("POST", {
     recipe: recipe,
-    recipe_id: recipe_id,
-    user_id: user_id
+    recipe_id: recipeId,
+    user_id: userId
   });
   return fetch(`${config.apiUrl}/recipes/create_or_update`, requestOptions)
     .then(response => {
@@ -37,6 +38,18 @@ function update(recipe, recipe_id, user_id) {
     })
     .catch(error => {
       return error;
+    });
+}
+
+function deleteUsersRecipes(recipeId, userId) {
+  const requestOptions = requestHandler("DELETE");
+  return fetch(
+    `${config.apiUrl}/recipes/delete_users_recipes/${recipeId}/${userId}`,
+    requestOptions
+  )
+    .then(handleResponse)
+    .then(response => {
+      return JSON.parse(response);
     });
 }
 
@@ -49,9 +62,9 @@ function scrape(url) {
     });
 }
 
-function findById(id) {
+function findById(recipeId) {
   const requestOptions = requestHandler("GET");
-  return fetch(`${config.apiUrl}/recipes/find_one/${id}`, requestOptions)
+  return fetch(`${config.apiUrl}/recipes/find_one/${recipeId}`, requestOptions)
     .then(response => {
       if (response.status !== 200) {
         return Promise.reject(response);
@@ -82,10 +95,10 @@ function findByUserId(id) {
   });
 }
 
-function findFavorites(id) {
+function findFavorites(userId) {
   const requestOptions = requestHandler("GET");
   return fetch(
-    `${config.apiUrl}/recipes/find_favorites/${id}`,
+    `${config.apiUrl}/recipes/find_favorites/${userId}`,
     requestOptions
   ).then(response => {
     if (response.status !== 200) {
@@ -98,8 +111,8 @@ function findFavorites(id) {
   });
 }
 
-function setFavorite(user_id, recipe_id, value) {
-  const requestOptions = requestHandler("POST", { user_id, recipe_id, value });
+function setFavorite(userId, recipeId, value) {
+  const requestOptions = requestHandler("POST", { userId, recipeId, value });
   return fetch(`${config.apiUrl}/recipes/set_favorite/`, requestOptions)
     .then(handleResponse)
     .then(response => {
@@ -112,10 +125,10 @@ function setFavorite(user_id, recipe_id, value) {
     });
 }
 
-function isFavorite(user_id, recipe_id) {
+function isFavorite(userId, recipeId) {
   const requestOptions = requestHandler("GET");
   return fetch(
-    `${config.apiUrl}/recipes/is_favorite/${user_id}/${recipe_id}`,
+    `${config.apiUrl}/recipes/is_favorite/${userId}/${recipeId}`,
     requestOptions
   )
     .then(handleResponse)

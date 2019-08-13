@@ -29,13 +29,12 @@ const EditRecipeModal = props => {
     }
   }, [getRecipe, recipeId]);
 
-  const onClick = () => {
+  const onClick = async () => {
     // Only call if modified in modal
     if (modifiedLocally) {
-      updateRecipe(recipeId).then(res => {
-        fetchRecipes(id);
-        toggle();
-      });
+      await updateRecipe(recipeId);
+      fetchRecipes(id);
+      toggle();
     } else {
       toggle();
     }
@@ -79,7 +78,7 @@ const mapDispatchToProps = {
   fetchRecipes: user_id => recipeActions.getAllByUserId(user_id),
   getRecipe: id => recipeActions.get(id),
   toggle: () => ({ type: modifyRecipeConstants.EDIT_RECIPE_TOGGLE }),
-  updateRecipe: id => recipeActions.update(id)
+  updateRecipe: id => recipeActions.createOrUpdate(id)
 };
 
 export default connect(

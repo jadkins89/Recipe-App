@@ -9,13 +9,21 @@ import {
 import { connect } from "react-redux";
 import { recipeActions } from "actions";
 import { modifyRecipeConstants } from "actionConstants";
-import { RecipeInput } from "components";
 
 const DeleteRecipeModal = props => {
-  const { fetchRecipes, deleteModal, toggle, recipeId, id } = props;
+  const {
+    fetchRecipes,
+    deleteRecipe,
+    toggle,
+    deleteModal,
+    recipeId,
+    id
+  } = props;
 
-  const onClick = () => {
-    console.log("delete test");
+  const onClick = async () => {
+    await deleteRecipe(recipeId, id);
+    fetchRecipes(id);
+    toggle();
   };
 
   if (deleteModal) {
@@ -51,8 +59,10 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  fetchRecipes: user_id => recipeActions.getAllByUserId(user_id),
-  toggle: () => ({ type: modifyRecipeConstants.DELETE_RECIPE_TOGGLE })
+  fetchRecipes: userId => recipeActions.getAllByUserId(userId),
+  toggle: () => ({ type: modifyRecipeConstants.DELETE_RECIPE_TOGGLE }),
+  deleteRecipe: (recipeId, userId) =>
+    recipeActions.deleteUsersRecipes(recipeId, userId)
 };
 
 export default connect(
