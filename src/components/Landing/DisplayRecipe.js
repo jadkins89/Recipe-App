@@ -1,7 +1,5 @@
 import React from "react";
 import {
-  MDBContainer,
-  MDBRow,
   MDBCol,
   MDBNavLink,
   MDBCard,
@@ -45,7 +43,8 @@ const DisplayRecipe = props => {
   return (
     <MDBCol
       className="d-inline-flex p-1"
-      md="2"
+      xs="6"
+      sm="4"
       lg="3"
       style={{ height: `120px` }}
     >
