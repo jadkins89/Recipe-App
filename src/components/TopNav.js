@@ -55,7 +55,7 @@ const TopNav = props => {
   };
 
   return (
-    <MDBContainer style={{ marginBottom: `60px` }}>
+    <MDBContainer style={{marginBottom: `40px`}}>
       <MDBNavbar
         className="p-0"
         light

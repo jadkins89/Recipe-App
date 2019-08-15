@@ -29,18 +29,18 @@ class SideNav extends Component {
 
   render() {
     return (
-      <MDBCol className="border-right" size="auto">
+      <MDBCol className="mr-3 p-0" size="2">
         <h5>Categories</h5>
         <MDBListGroup>
           <StyledListItem
-            className="p-0 pl-2 ml-2"
+            className="p-0 pl-1"
             onClick={this.handleClick}
             hover
           >
             All Recipes
           </StyledListItem>
           <StyledListItem
-            className="p-0 pl-2 ml-2"
+            className="p-0 pl-1"
             onClick={this.handleClick}
             hover
             name="favorites"
