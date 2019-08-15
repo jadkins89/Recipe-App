@@ -46,30 +46,30 @@ const DisplayRecipe = props => {
       xs="6"
       sm="4"
       lg="3"
-      style={{ height: `120px` }}
+      style={{ height: `160px` }}
     >
       <MDBCard className="flex-fill">
-        <MDBCardBody className="d-flex">
+        <MDBCardTitle className="p-2" style={{fontSize: `12px`, fontWeight: `bold`}}>
           <MDBNavLink className="px-0" to={"recipes/" + id}>
             {name}
           </MDBNavLink>
-          <MDBDropdown className="my-auto">
-            <MDBDropdownToggle
-              className="btn btn-link m-0 p-0 ml-1 pb-1 px-2"
-              tag="button"
+        </MDBCardTitle>
+        <MDBDropdown className="ml-auto mt-auto">
+          <MDBDropdownToggle
+            className="btn btn-link m-0 p-0 ml-1 pb-1 px-2"
+            tag="button"
             >
               <i className="fas fa-ellipsis-v fa-sm"></i>
             </MDBDropdownToggle>
             <StyledDropdownMenu>
-              <MDBDropdownItem onClick={getEditClickHandler(key)}>
+              <MDBDropdownItem className="px-2" onClick={getEditClickHandler(key)}>
                 edit
               </MDBDropdownItem>
-              <MDBDropdownItem onClick={getDeleteClickHandler(key)}>
+              <MDBDropdownItem className="px-2" onClick={getDeleteClickHandler(key)}>
                 delete
               </MDBDropdownItem>
             </StyledDropdownMenu>
           </MDBDropdown>
-        </MDBCardBody>
       </MDBCard>
     </MDBCol>
   );

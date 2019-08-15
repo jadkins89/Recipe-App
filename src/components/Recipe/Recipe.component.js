@@ -10,6 +10,7 @@ import {
 import styled from "styled-components";
 import classNames from "classnames";
 
+// Separate star into own component
 const StyledStar = styled.span`
   font-size: 20px;
   float: right;

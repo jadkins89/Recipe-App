@@ -6,6 +6,7 @@ import { recipeActions } from "actions";
 
 const StyledListItem = styled(MDBListGroupItem)`
   border: none;
+  padding: 2px 0 2px 4px;
   &:hover {
     cursor: pointer;
   }
@@ -33,14 +34,12 @@ class SideNav extends Component {
         <h5>Categories</h5>
         <MDBListGroup>
           <StyledListItem
-            className="p-0 pl-1"
             onClick={this.handleClick}
             hover
           >
             All Recipes
           </StyledListItem>
           <StyledListItem
-            className="p-0 pl-1"
             onClick={this.handleClick}
             hover
             name="favorites"
