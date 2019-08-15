@@ -49,7 +49,10 @@ const DisplayRecipe = props => {
       style={{ height: `160px` }}
     >
       <MDBCard className="flex-fill">
-        <MDBCardTitle className="p-2" style={{fontSize: `12px`, fontWeight: `bold`}}>
+        <MDBCardTitle
+          className="p-2"
+          style={{ fontSize: `12px`, fontWeight: `bold` }}
+        >
           <MDBNavLink className="px-0" to={"recipes/" + id}>
             {name}
           </MDBNavLink>
@@ -58,18 +61,24 @@ const DisplayRecipe = props => {
           <MDBDropdownToggle
             className="btn btn-link m-0 p-0 ml-1 pb-1 px-2"
             tag="button"
+          >
+            <i className="fas fa-ellipsis-v fa-sm"></i>
+          </MDBDropdownToggle>
+          <StyledDropdownMenu>
+            <MDBDropdownItem
+              className="px-2"
+              onClick={getEditClickHandler(key)}
             >
-              <i className="fas fa-ellipsis-v fa-sm"></i>
-            </MDBDropdownToggle>
-            <StyledDropdownMenu>
-              <MDBDropdownItem className="px-2" onClick={getEditClickHandler(key)}>
-                edit
-              </MDBDropdownItem>
-              <MDBDropdownItem className="px-2" onClick={getDeleteClickHandler(key)}>
-                delete
-              </MDBDropdownItem>
-            </StyledDropdownMenu>
-          </MDBDropdown>
+              edit
+            </MDBDropdownItem>
+            <MDBDropdownItem
+              className="px-2"
+              onClick={getDeleteClickHandler(key)}
+            >
+              delete
+            </MDBDropdownItem>
+          </StyledDropdownMenu>
+        </MDBDropdown>
       </MDBCard>
     </MDBCol>
   );

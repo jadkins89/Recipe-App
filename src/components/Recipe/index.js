@@ -6,21 +6,21 @@ import { Loading } from "components";
 
 const Recipe = props => {
   const { getRecipe, history, recipe, user, isFetching, setFavorite } = props;
-  let recipe_id = props.match.params.recipe_id;
+  let recipeId = props.match.params.recipe_id;
   let name = props.match.params.recipe_name;
 
   useEffect(() => {
     (async () => {
       if (history.action !== "REPLACE") {
         try {
-          let response = await getRecipe(recipe_id);
+          let response = await getRecipe(recipeId);
           let url_name = response.recipe.name
             .replace(/[.,/#!$%^&*;:{}=\-_'`~()\s]/g, "")
             .toLowerCase();
           if (!name) {
-            history.replace(`/recipes/${recipe_id}/${url_name}`);
+            history.replace(`/recipes/${recipeId}/${url_name}`);
           } else if (name !== url_name) {
-            history.replace(`/recipes/${recipe_id}/${url_name}`);
+            history.replace(`/recipes/${recipeId}/${url_name}`);
             // Should handle 404
           }
         } catch {
@@ -28,7 +28,7 @@ const Recipe = props => {
         }
       }
     })();
-  }, [name, history, getRecipe, recipe_id]);
+  }, [name, history, getRecipe, recipeId]);
 
   // Loading screen for user / recipe loading and url modification
   if (isFetching || recipe.isFetching || history.action === "PUSH") {
@@ -38,7 +38,7 @@ const Recipe = props => {
       <RecipeComponent
         recipe={recipe}
         setFavorite={setFavorite}
-        recipe_id={recipe_id}
+        recipe_id={recipeId}
         user_id={user.id}
       />
     );
@@ -57,8 +57,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   getRecipe: id => recipeActions.get(id),
-  setFavorite: (user_id, recipe_id, value) =>
-    recipeActions.setFavorite(user_id, recipe_id, value)
+  setFavorite: (userId, recipeId, value) =>
+    recipeActions.setFavorite(userId, recipeId, value)
 };
 
 export default connect(

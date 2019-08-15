@@ -17,13 +17,18 @@ function add(recipe, userId) {
     recipe: recipe,
     user_id: userId
   });
-  return fetch(`${config.apiUrl}/recipes/add`, requestOptions)
-    .then(response => {
-      return JSON.parse(response);
-    })
-    .catch(error => {
-      return error;
-    });
+  return new Promise(async (resolve, reject) => {
+    try {
+      let response = await fetch(
+        `${config.apiUrl}/recipes/add`,
+        requestOptions
+      );
+      let data = await handleResponse(response);
+      resolve(JSON.parse(data));
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
 
 function update(recipe, recipeId, userId) {
@@ -32,109 +37,147 @@ function update(recipe, recipeId, userId) {
     recipe_id: recipeId,
     user_id: userId
   });
-  return fetch(`${config.apiUrl}/recipes/create_or_update`, requestOptions)
-    .then(response => {
-      return JSON.parse(response);
-    })
-    .catch(error => {
-      return error;
-    });
+  return new Promise(async (resolve, reject) => {
+    try {
+      let response = await fetch(
+        `${config.apiUrl}/recipes/create_or_update`,
+        requestOptions
+      );
+      let data = await handleResponse(response);
+      resolve(JSON.parse(data));
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
 
 function deleteUsersRecipes(recipeId, userId) {
   const requestOptions = requestHandler("DELETE");
-  return fetch(
-    `${config.apiUrl}/recipes/delete_users_recipes/${recipeId}/${userId}`,
-    requestOptions
-  )
-    .then(handleResponse)
-    .then(response => {
-      return JSON.parse(response);
-    });
+  return new Promise(async (resolve, reject) => {
+    try {
+      let response = await fetch(
+        `${config.apiUrl}/recipes/delete_users_recipes/${recipeId}/${userId}`,
+        requestOptions
+      );
+      let data = await handleResponse(response);
+      resolve(JSON.parse(data));
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
 
 function scrape(url) {
   const requestOptions = requestHandler("POST", { url: url });
-  return fetch(`${config.apiUrl}/recipes/scrape`, requestOptions)
-    .then(handleResponse)
-    .then(response => {
-      return JSON.parse(response);
-    });
+  return new Promise(async (resolve, reject) => {
+    try {
+      let response = await fetch(
+        `${config.apiUrl}/recipes/scrape`,
+        requestOptions
+      );
+      let data = await handleResponse(response);
+      resolve(JSON.parse(data));
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
 
 function findById(recipeId) {
   const requestOptions = requestHandler("GET");
-  return fetch(`${config.apiUrl}/recipes/find_one/${recipeId}`, requestOptions)
-    .then(response => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let response = await fetch(
+        `${config.apiUrl}/recipes/find_one/${recipeId}`,
+        requestOptions
+      );
       if (response.status !== 200) {
-        return Promise.reject(response);
+        reject(response);
       } else {
-        return response.json().then(data => {
-          return data;
-        });
+        let data = await response.json();
+        resolve(data);
       }
-    })
-    .catch(error => {
-      return Promise.reject(error);
-    });
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
 
 function findByUserId(id) {
   const requestOptions = requestHandler("GET");
-  return fetch(
-    `${config.apiUrl}/recipes/find_by_user_id/${id}`,
-    requestOptions
-  ).then(response => {
-    if (response.status !== 200) {
-      return Promise.reject(response);
-    } else {
-      return response.json().then(data => {
-        return data;
-      });
+  return new Promise(async (resolve, reject) => {
+    try {
+      let response = await fetch(
+        `${config.apiUrl}/recipes/find_by_user_id/${id}`,
+        requestOptions
+      );
+      if (response.status !== 200) {
+        reject(response);
+      } else {
+        let data = await response.json();
+        resolve(data);
+      }
+    } catch (error) {
+      reject(error);
     }
   });
 }
 
 function findFavorites(userId) {
   const requestOptions = requestHandler("GET");
-  return fetch(
-    `${config.apiUrl}/recipes/find_favorites/${userId}`,
-    requestOptions
-  ).then(response => {
-    if (response.status !== 200) {
-      return Promise.reject(response);
-    } else {
-      return response.json().then(data => {
-        return data;
-      });
+  return new Promise(async (resolve, reject) => {
+    try {
+      let response = await fetch(
+        `${config.apiUrl}/recipes/find_favorites/${userId}`,
+        requestOptions
+      );
+      if (response.status !== 200) {
+        reject(response);
+      } else {
+        let data = await response.json();
+        resolve(data);
+      }
+    } catch (error) {
+      reject(error);
     }
   });
 }
 
+// Re-write front / back for better error handling
 function setFavorite(userId, recipeId, value) {
   const requestOptions = requestHandler("POST", { userId, recipeId, value });
-  return fetch(`${config.apiUrl}/recipes/set_favorite/`, requestOptions)
-    .then(handleResponse)
-    .then(response => {
-      let res = JSON.parse(response);
-      if (res.affectedRows !== 1) {
-        return Promise.reject("Query Failed");
+  return new Promise(async (resolve, reject) => {
+    try {
+      let response = await fetch(
+        `${config.apiUrl}/recipes/set_favorite/`,
+        requestOptions
+      );
+      let parsedData = JSON.parse(await handleResponse(response));
+      if (parsedData.affectedRows !== 1) {
+        reject("Query Failed");
       } else {
-        return res;
+        resolve(parsedData);
       }
-    });
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
 
 function isFavorite(userId, recipeId) {
   const requestOptions = requestHandler("GET");
-  return fetch(
-    `${config.apiUrl}/recipes/is_favorite/${userId}/${recipeId}`,
-    requestOptions
-  )
-    .then(handleResponse)
-    .then(response => {
-      return JSON.parse(response);
-    });
+  return new Promise(async (resolve, reject) => {
+    try {
+      let response = await fetch(
+        `${config.apiUrl}/recipes/is_favorite/${userId}/${recipeId}`,
+        requestOptions
+      );
+      let data = await handleResponse(response);
+      resolve(JSON.parse(data));
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
 
 function requestHandler(type, body) {

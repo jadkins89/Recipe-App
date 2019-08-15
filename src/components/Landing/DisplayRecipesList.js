@@ -20,7 +20,7 @@ const DisplayRecipesList = props => {
             return (
               <DisplayRecipe
                 name={recipe.name}
-                id={recipe.id}
+                id={recipe.recipe_id}
                 editRecipe={editRecipe}
                 deleteRecipe={deleteRecipe}
                 key={"recipe_" + user.id + "-" + index}

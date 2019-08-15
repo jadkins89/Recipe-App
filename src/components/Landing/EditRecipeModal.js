@@ -75,7 +75,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  fetchRecipes: user_id => recipeActions.getAllByUserId(user_id),
+  fetchRecipes: userId => recipeActions.getAllByUserId(userId),
   getRecipe: id => recipeActions.get(id),
   toggle: () => ({ type: modifyRecipeConstants.EDIT_RECIPE_TOGGLE }),
   updateRecipe: id => recipeActions.createOrUpdate(id)
