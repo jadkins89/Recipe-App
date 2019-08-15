@@ -49,8 +49,8 @@ function regPasswordValidation(event, password, confirmPassword, dispatch) {
 }
 
 function emailValidation(event, email, dispatch) {
-  var emailField = event.target.querySelector("[name=email]");
-  var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  let emailField = event.target.querySelector("[name=email]");
+  let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   if (!regex.test(email)) {
     emailField.className += " invalid";
@@ -68,8 +68,17 @@ function emailValidation(event, email, dispatch) {
 }
 
 function nameValidation(event, name, dispatch) {
-  var nameField = event.target.querySelector(`[value=${name}]`);
-  if (nameField.value.length > 10) {
+  let nameField = event.target.querySelector(`[name=${name}]`);
+  if (!nameField.value) {
+    nameField.className += " invalid";
+    dispatch(
+      alertActions.addAlert({
+        type: "error",
+        text: `Your name is required`
+      })
+    );
+    return false;
+  } else if (nameField.value.length > 10) {
     nameField.className += " invalid";
     dispatch(
       alertActions.addAlert({

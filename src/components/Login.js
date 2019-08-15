@@ -62,7 +62,7 @@ class Login extends Component {
       return (
         <MDBContainer>
           <MDBRow className="mt-5">
-            <MDBCol md="5" className="m-auto">
+            <MDBCol sm="10" md="8" lg="6" xl="5" className="m-auto">
               <MDBCard>
                 <MDBCardBody>
                   <AlertMessagesList />

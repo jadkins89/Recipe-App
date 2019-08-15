@@ -39,8 +39,8 @@ class Register extends Component {
     dispatch(alertActions.clearAlert());
 
     if (
-      validationServices.nameValidation(event, user.firstName, dispatch) &&
-      validationServices.nameValidation(event, user.lastName, dispatch) &&
+      validationServices.nameValidation(event, "firstName", dispatch) &&
+      validationServices.nameValidation(event, "lastName", dispatch) &&
       validationServices.emailValidation(event, user.email, dispatch) &&
       validationServices.regPasswordValidation(
         event,
@@ -74,7 +74,7 @@ class Register extends Component {
     return (
       <MDBContainer>
         <MDBRow className="mt-5">
-          <MDBCol md="5" className="m-auto">
+          <MDBCol sm="10" md="8" lg="6" xl="5" className="m-auto">
             <MDBCard>
               <MDBCardBody>
                 <AlertMessagesList />
