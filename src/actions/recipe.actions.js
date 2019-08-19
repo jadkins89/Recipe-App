@@ -142,6 +142,7 @@ function find(url) {
           type: "error",
           text: parsedError.message
         };
+        dispatch(failure(parsedError));
         dispatch(alertActions.addAlert(message));
       });
   };

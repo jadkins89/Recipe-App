@@ -22,22 +22,32 @@ class UrlSubmitBox extends Component {
 
   handleChange = event => {
     this.setState({
-      [event.target.name]: event.target.value });
+      [event.target.name]: event.target.value
+    });
   };
 
   render() {
     const { handleSubmit, handleChange } = this;
     const { url } = this.state;
+    const { isFetching } = this.props;
     return (
       <>
         <UrlSubmitBoxComponent
           handleSubmit={handleSubmit}
           handleChange={handleChange}
           url={url}
-        /> 
+          isFetching={isFetching}
+        />
       </>
     );
   }
 }
 
-export default connect(null)(UrlSubmitBox);
+const mapStateToProps = state => {
+  const { isFetching } = state.recipe;
+  return {
+    isFetching
+  };
+};
+
+export default connect(mapStateToProps)(UrlSubmitBox);

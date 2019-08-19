@@ -10,10 +10,10 @@ import {
   MDBInput,
   MDBBtn
 } from "mdbreact";
-import { AlertMessagesList } from "components";
+import { AlertMessagesList, Loading } from "components";
 
 const UrlSubmitBoxComponent = props => {
-  const { handleSubmit, handleChange, url } = props;
+  const { handleSubmit, handleChange, url, isFetching } = props;
   return (
     <MDBContainer>
       <MDBRow>
@@ -41,11 +41,18 @@ const UrlSubmitBoxComponent = props => {
                   outline
                   required
                 />
-                <div className="float-right">
-                  <MDBBtn type="submit" style={{ borderRadius: `28px` }}>
-                    Submit
-                  </MDBBtn>
-                </div>
+                {isFetching ? (
+                  <div className="float-left pt-3">
+                    <Loading />
+                  </div>
+                ) : null}
+                <MDBBtn
+                  className="float-right"
+                  type="submit"
+                  style={{ borderRadius: `28px` }}
+                >
+                  Submit
+                </MDBBtn>
               </form>
             </MDBCardBody>
           </MDBCard>
