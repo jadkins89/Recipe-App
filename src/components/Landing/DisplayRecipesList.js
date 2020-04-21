@@ -21,6 +21,7 @@ const DisplayRecipesList = props => {
               <DisplayRecipe
                 name={recipe.name}
                 id={recipe.recipe_id}
+                image={recipe.image}
                 editRecipe={editRecipe}
                 deleteRecipe={deleteRecipe}
                 key={"recipe_" + user.id + "-" + index}

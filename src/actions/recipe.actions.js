@@ -134,6 +134,7 @@ function find(url) {
           dispatch(failure(error));
           dispatch(alertActions.addAlert(message));
         }
+        recipe.url = url;
         dispatch(success(recipe));
       })
       .catch(error => {

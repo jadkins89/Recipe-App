@@ -47,12 +47,12 @@ const RecipeInputComponent = props => {
       </MDBRow>
       <MDBRow>
         <MDBContainer className="mt-3">
-          <h5 className="mx-4">Directions</h5>
+          <h5 className="mx-4">Instructions</h5>
           <hr />
           <ItemInputList name="instructions" />
           <MDBBtn size="sm" name="instructions" onClick={addListItem}>
             <MDBIcon icon="plus" className="mr-2" />
-            Add Direction
+            Add Instruction
           </MDBBtn>
         </MDBContainer>
       </MDBRow>

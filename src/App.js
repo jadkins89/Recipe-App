@@ -29,7 +29,7 @@ class App extends Component {
     return (
       <div
         className="d-flex flex-column"
-        style={{ height: `100%`, background: `WhiteSmoke` }}
+        style={{ background: `WhiteSmoke` }}
       >
         <Switch>
           <Route path="/login" component={Login} />

@@ -33,8 +33,15 @@ const DefaultRecipeImage = styled.div`
   color: white;
 `;
 
+const StyledRecipeImage = styled.img`
+  max-height: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  object-fit: cover;
+`;
+
 const DisplayRecipe = props => {
-  const { name, id, editRecipe, deleteRecipe } = props;
+  const { name, image, id, editRecipe, deleteRecipe } = props;
   const editClickHandlers = {};
   const deleteClickHandlers = {};
   const key = "recipe_" + id;
@@ -58,6 +65,17 @@ const DisplayRecipe = props => {
     return initials.slice(0,3);
   }
 
+  const RecipeImage = props => {
+    const source = props.src;
+    if (!source) {
+      let initials = getInitials(props.name);
+      return <DefaultRecipeImage>{initials}</DefaultRecipeImage>;
+    } else {
+      return<StyledRecipeImage src={source} />;
+    }
+  }
+
+
   // Break up drop down into seperate component
   return (
     <MDBCol
@@ -76,9 +94,7 @@ const DisplayRecipe = props => {
             {name}
           </MDBNavLink>
         </MDBCardTitle>
-        <DefaultRecipeImage>
-          {getInitials(name)}
-        </DefaultRecipeImage>
+        <RecipeImage src={image} name={name} />
         <MDBDropdown className="ml-auto mt-auto">
           <MDBDropdownToggle
             className="btn btn-link m-0 p-0 ml-1 pb-1 px-2"
