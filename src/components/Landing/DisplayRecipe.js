@@ -4,6 +4,7 @@ import {
   MDBNavLink,
   MDBCard,
   MDBCardBody,
+  MDBCardImage,
   MDBCardTitle,
   MDBCardText,
   MDBDropdown,
@@ -17,6 +18,19 @@ const StyledDropdownMenu = styled(MDBDropdownMenu)`
   min-width: 0;
   padding: 0;
   font-size: 12px;
+`;
+
+const DefaultRecipeImage = styled.div`
+  width: 100%;
+  height: 100%;
+  background: #D3D3D3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 36px;
+  color: white;
 `;
 
 const DisplayRecipe = props => {
@@ -39,6 +53,11 @@ const DisplayRecipe = props => {
     return deleteClickHandlers[key];
   };
 
+  const getInitials = name => {
+    let initials = name.split(" ").map(word => word[0].toUpperCase());
+    return initials.slice(0,3);
+  }
+
   // Break up drop down into seperate component
   return (
     <MDBCol
@@ -50,13 +69,16 @@ const DisplayRecipe = props => {
     >
       <MDBCard className="flex-fill">
         <MDBCardTitle
-          className="p-2"
-          style={{ fontSize: `12px`, fontWeight: `bold` }}
+          className="px-2 pt-2 m-0"
+          style={{ fontSize: `12px`, fontWeight: `bold`, minHeight: `48px`, maxHeight: `48px` }}
         >
           <MDBNavLink className="px-0" to={"recipes/" + id}>
             {name}
           </MDBNavLink>
         </MDBCardTitle>
+        <DefaultRecipeImage>
+          {getInitials(name)}
+        </DefaultRecipeImage>
         <MDBDropdown className="ml-auto mt-auto">
           <MDBDropdownToggle
             className="btn btn-link m-0 p-0 ml-1 pb-1 px-2"
